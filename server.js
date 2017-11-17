@@ -16,8 +16,8 @@ var express = require('express')
 /**
 * CONFIGURATION
 * -------------------------------------------------------------------------------------------------
-* load configuration settings from ENV, then settings.json.  Contains keys for OAuth logins. See 
-* settings.example.json.  
+* load configuration settings from ENV, then settings.json.  Contains keys for OAuth logins. See
+* settings.example.json.
 **/
 nconf.env().file({ file: 'settings.json' });
 
@@ -144,7 +144,7 @@ everyauth
         if (newUserAttrs.password != confirmPassword) errors.push('Passwords must match');
         if (usersByLogin[login]) errors.push('Login already taken');
 
-        // validate the recaptcha 
+        // validate the recaptcha
         var recaptcha = new Recaptcha(nconf.get('recaptcha:publicKey'), nconf.get('recaptcha:privateKey'), newUserAttrs.data);
         recaptcha.verify(function (success, error_code) {
             if (!success) {
@@ -205,12 +205,13 @@ app.configure('development', function () {
 **/
 require('./routes/home')(app);
 require('./routes/account')(app);
+require('./routes/spotify')(app);
 
 
 var server = http.createServer(app);
 
 /**
-* CHAT / SOCKET.IO 
+* CHAT / SOCKET.IO
 * -------------------------------------------------------------------------------------------------
 * this shows a basic example of using socket.io to orchestrate chat
 **/
