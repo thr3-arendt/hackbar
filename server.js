@@ -10,9 +10,7 @@ var express = require('express')
   , nconf = require('nconf')
   , path = require('path')
   , everyauth = require('everyauth')
-  , Recaptcha = require('recaptcha').Recaptcha
-  , cron = require('node-cron');
-
+  , Recaptcha = require('recaptcha').Recaptcha;
 
 
 /**
@@ -23,11 +21,6 @@ var express = require('express')
 **/
 nconf.env().file({ file: 'settings.json' });
 
-
-
-cron.schedule('10 * * * * *', function(){
-  console.log('running a task every minute');
-});
 
 
 /**
