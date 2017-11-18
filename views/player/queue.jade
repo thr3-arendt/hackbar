@@ -20,7 +20,7 @@ block content
                             p=entry.track.artists.map(a => a.name).join(', ')
                     i.fa.fa-tasks.close
                     .item-back
-                        button.action.first.btn-dislike(type='button')
-                            i.fa.fa-thumbs-o-down
-                        button.action.second.btn-like(type='button')
-                            i.fa.fa-heart-o
+                        a.action.first.btn-dislike(href="/downvote/" + entry.track.uri)
+                            i.fa(class=(voted[entry.track.uri] == 'down' ? 'fa-thumbs-down' : 'fa-thumbs-o-down'))
+                        a.action.second.btn-like(href="/upvote/" + entry.track.uri)
+                            i.fa(class=(voted[entry.track.uri] == 'up' ? 'fa-heart' : 'fa-heart-o'))

@@ -64,7 +64,7 @@ module.exports = function (app) {
         });
     });
 
-    app.get('/upvote', function (req, res) {
+    app.get('/upvote/:track', function (req, res) {
 
         if (!req.session.voteTrack) {
             req.session.voteTrack = {};
@@ -81,43 +81,38 @@ module.exports = function (app) {
             spotifyApi.setAccessToken(auth[0].accessToken);
             spotifyApi.setRefreshToken(auth[0].refreshToken);
 
-            spotifyApi.getMyCurrentPlaybackState().then(data => {
+            let track = req.params.track;
 
-                let currentSong = data.body.item;
-                let track = currentSong.uri;
-                console.log('URI for upvote', track);
+            if (req.session.voteTrack[track]) {
+                console.log('You are not allowed to do that anymore');
+                req.flash('info', 'You\'ve already voted for this song');
+                return res.redirect('/');
+            }
 
-                if (req.session.voteTrack[track]) {
-                    console.log('You are not allowed to do that anymore');
-                    req.flash('info', 'You\'ve already voted for this song');
-                    return res.redirect('/');
+            TrackVote.find({ track: track, deleted: { $ne: true } }).limit(1).exec().then(votes => {
+
+                let vote = null;
+                if (!votes || votes.length === 0) {
+                    vote = new TrackVote();
+                    vote.track = track;
+                } else {
+                    vote = votes[0];
                 }
 
-                TrackVote.find({ track: track, deleted: { $ne: true } }).limit(1).exec().then(votes => {
+                vote.vote_positive++;
 
-                    let vote = null;
-                    if (!votes || votes.length === 0) {
-                        vote = new TrackVote();
-                        vote.track = track;
-                    } else {
-                        vote = votes[0];
-                    }
+                let backURL = req.header('Referer') || '/';
+                vote.save(() => res.redirect(backURL));
 
-                    vote.vote_positive++;
+                req.flash('info', 'Upvoted song');
 
-                    vote.save(() => res.redirect('/'));
-
-                    req.flash('info', 'Upvoted song');
-
-                    console.log('Voting up for track ' + track);
-                    req.session.voteTrack[track] = 'up';
-                });
-
-            }, error => console.log('Cannot get current playback state ', error));
+                console.log('Voting up for track ' + track);
+                req.session.voteTrack[track] = 'up';
+            });
         });
     });
 
-    app.get('/downvote', function (req, res) {
+    app.get('/downvote/:track', function (req, res) {
 
         if (!req.session.voteTrack) {
             req.session.voteTrack = {};
@@ -128,45 +123,40 @@ module.exports = function (app) {
             if (!auth || auth.length === 0) {
                 // the token expired
                 console.log('Lost auth token along the way. redirecting to spotify auth');
-                req.flash('info', 'You\'ve already voted for this song');
                 return res.redirect('/spotify/auth');
             }
 
             spotifyApi.setAccessToken(auth[0].accessToken);
             spotifyApi.setRefreshToken(auth[0].refreshToken);
 
-            spotifyApi.getMyCurrentPlaybackState().then(data => {
+            let track = req.params.track;
 
-                let currentSong = data.body.item;
-                let track = currentSong.uri;
-                console.log('URI for upvote', track);
+            if (req.session.voteTrack[track]) {
+                console.log('You are not allowed to do that anymore');
+                req.flash('info', 'You\'ve already voted for this song');
+                return res.redirect('/');
+            }
 
-                if (req.session.voteTrack[track]) {
-                    console.log('You are not allowed to do that anymore');
-                    return res.redirect('/');
+            TrackVote.find({ track: track, deleted: { $ne: true } }).limit(1).exec().then(votes => {
+
+                let vote = null;
+                if (!votes || votes.length === 0) {
+                    vote = new TrackVote();
+                    vote.track = track;
+                } else {
+                    vote = votes[0];
                 }
 
-                TrackVote.find({ track: track, deleted: { $ne: true } }).limit(1).exec().then(votes => {
+                vote.vote_negative++;
 
-                    let vote = null;
-                    if (!votes || votes.length === 0) {
-                        vote = new TrackVote();
-                        vote.track = track;
-                    } else {
-                        vote = votes[0];
-                    }
+                let backURL = req.header('Referer') || '/';
+                vote.save(() => res.redirect(backURL));
 
-                    vote.vote_negative++;
+                req.flash('info', 'Downvoted song');
 
-                    vote.save(() => res.redirect('/'));
-
-                    req.flash('info', 'Downvoted song');
-
-                    console.log('Voting down for track ' + track);
-                    req.session.voteTrack[track] = 'down';
-                });
-
-            }, error => console.log('Cannot get current playback state ', error));
+                console.log('Voting down for track ' + track);
+                req.session.voteTrack[track] = 'down';
+            });
         });
     });
 
@@ -222,7 +212,11 @@ module.exports = function (app) {
 
             spotifyApi.getMyCurrentPlaybackState().then(currentData => {
                 spotifyApi.getPlaylistTracks(spotifyUserId, playlistId).then(data => {
-                    res.render('player/queue', { playlist: data.body, currentSong: currentData.body.item })
+                    res.render('player/queue', {
+                        playlist: data.body,
+                        currentSong: currentData.body.item,
+                        voted: req.session.voteTrack,
+                    })
                 }, error => console.error('Cannot fetch playlist tracks ', error));
             });
         });
