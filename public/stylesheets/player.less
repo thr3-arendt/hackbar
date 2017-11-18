@@ -29,8 +29,8 @@
 }
 /*************************************************/
 /*.detail .info img { width: 100%; }
-.detail .info img { opacity: 0 } 
-.detail.lock .info img { opacity: 0 !important; } 
+.detail .info img { opacity: 0 }
+.detail.lock .info img { opacity: 0 !important; }
 .detail.ready .info img { opacity: 1; animation: fade-in .4s ease }*/
 /* this must be important */
 /*#4f6 #82d*/
@@ -175,9 +175,6 @@
     animation: fade-in .6s ease;
   }
   .info {
-    img {
-      opacity: 0.5;
-    }
     .title {
       animation: expand-on .5s ease;
     }
@@ -717,3 +714,102 @@
     }
   }
 }
+
+
+.bg-image {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0.1;
+  z-index: -1;
+  object-fit: cover;
+}
+
+.desktop-vspace {
+  margin-top: 1em;
+  margin-bottom: 1em;
+}
+
+@media (max-width : @smarthphone-break) {
+  .bg-image {
+    display: none;
+  }
+  .desktop-vspace {
+    margin-top: 0;
+    margin-bottom: 0;
+  }
+}
+
+.width-container {
+  padding-left: 1em;
+  padding-right: 1em;
+  max-width: 500px;
+  margin-left: auto;
+  margin-right: auto;
+}
+.wide-wrapper {
+  position: relative;
+}
+.cover-art {
+  display: inline-block;
+  position: relative;
+}
+.progress-bar {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 5px;
+  background: #fff;
+}
+
+.cover-art-width {
+  max-width: 50vmin;
+  max-height: 50vmin;
+}
+
+.cover-art-image {
+  width: 100%;
+}
+
+.block-center {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+.pos-rel {
+  position: relative;
+}
+
+.flex-container {
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  display: flex;
+  align-items: space-between;
+}
+
+.truncated {
+  display: block;
+  white-space: nowrap; /* forces text to single line */
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.fg-1 {
+  flex-grow: 1;
+}
+
+.next-button {
+  height: 12vmin;
+  width: 12vmin;
+  border-radius: 6vmin;
+  border: 1px solid #ccc;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 6vmin;
+}
+

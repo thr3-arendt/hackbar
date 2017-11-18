@@ -1,44 +1,35 @@
-.wrapper
-    .detail.open.ready
-        - var bg = currentSong.album.images[0].url
-        .info(style='background-image:url("'+ bg + '");background-repeat:no-repeat;background-size:cover')
-            .nav
-                .overlay
-                .icons
-                    if currentSong.external_urls.spotify
-                        a(href=currentSong.external_urls.spotify): i.fa.fa-spotify.close
-                    a(href="/queue"): i.fa.fa-list.close
-            .slider(style='touch-action: pan-y; user-select: none; -webkit-user-drag: none; -webkit-tap-highlight-color: rgba(0, 0, 0, 0);')
-                .slide
-                    .thumb
-                        div(style='background-image:url("' + bg + '")')
-                    .title
-                        a(href="/downvote/" + currentSong.uri): i.fa(class=(voted == 'down' ? 'fa-thumbs-down' : 'fa-thumbs-o-down'))
-                        h3
-                            span= currentSong.name
-                            small= currentSong.artists.map(a => a.name).join(', ') + ' - ' + currentSong.album.name
-                        a(href="/upvote/" + currentSong.uri): i.fa(class=(voted == 'up' ? 'fa-heart' : 'fa-heart-o'))
-        .player
-            .controls
-                a.btn.btn-danger(href='/skip', class=hasSkipped ? 'disabled' : '')
-                    i.fa.fa-step-forward
-                    |  Skip title
-                br
-                .btn-group
-                    a.btn.btn-default(href="/volume/down"): i.fa.fa-volume-down
-                    a.btn.btn-default(href="/volume/up"): i.fa.fa-volume-up
-            .track
-                audio.audio(preload='true', crossorigin='anonymous')
-                canvas.analyser
-                .progress
-                    - var percent = Math.round(progress_ms / currentSong.duration_ms * 100)
-                    .progress-bar(aria-valuenow=percent, aria-valuemin="0", aria-valuemax="100", style="width: "+percent+"%;")
-                        span.sr-only= percent + '% Complete'
-                .counter
-                    - var minutes = Math.floor(progress_ms / (1000 * 60))
-                    - var seconds = Math.floor((progress_ms - minutes * 60 * 1000) / (1000))
-                    span.begin(data-start=progress_ms)= minutes + ':' + (seconds < 10 ? '0'+seconds : seconds)
+- var bg = currentSong.album.images[0].url
+.wide-wrapper
+    .width-container
+        div.cover-art-width.block-center.desktop-vspace
+            if currentSong.external_urls.spotify
+                a(href=currentSong.external_urls.spotify)
+                    i.fa.fa-spotify
+                    | &nbsp;Open in Spotify
 
-                    - var minutes = Math.floor(currentSong.duration_ms / (1000 * 60))
-                    - var seconds = Math.floor((currentSong.duration_ms - minutes * 60 * 1000) / (1000))
-                    span.end(data-end=currentSong.duration_ms)= minutes + ':' + (seconds < 10 ? '0'+seconds : seconds)
+.wide-wrapper(style="margin-bottom: 1em;")
+    img.bg-image(src=bg)
+    .width-container
+        .info.text-center
+            div.cover-art-width.block-center.pos-rel.desktop-vspace
+                img.cover-art-image(src=bg)
+                div.progress-bar
+.wide-wrapper
+    .width-container
+
+        div.flex-container(style="margin-bottom: 1em;")
+            a(href="/downvote/" + currentSong.uri, style="margin-left: 1em;"): i.fa(class=(voted == 'down' ? 'fa-thumbs-down' : 'fa-thumbs-o-down'))
+            div(style="flex-grow: 1; margin-left: 1em; margin-right: 1em;")
+                div.text-center.truncated= currentSong.name
+                div.text-center.truncated
+                    small= currentSong.artists.map(a => a.name).join(', ') + ' - ' + currentSong.album.name
+            a(href="/upvote/" + currentSong.uri, style="margin-right: 1em;"): i.fa(class=(voted == 'up' ? 'fa-thumbs-up' : 'fa-thumbs-o-up'))
+        div.flex-container(style="margin-bottom: 1em;")
+            a.fg-1.text-center(href="/volume/down"): i.fa.fa-volume-down
+            div.fg-1.text-center
+                a.next-button.block-center(href='/skip', class=hasSkipped ? 'disabled' : '', title="Skip current song")
+                    i.fa.fa-step-forward
+            a.fg-1.text-center(href="/volume/up"): i.fa.fa-volume-up
+        a.btn.btn-block.btn-default(href="/queue")
+            i.fa.fa-list.close
+            | View Queue
