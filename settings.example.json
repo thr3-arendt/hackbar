@@ -13,7 +13,9 @@
     },
     "spotify": {
         "clientId": "{ your spotify public key }",
-        "clientSecret": "{ your spotify private key }8"
+        "clientSecret": "{ your spotify private key }",
+        "accessToken": "",
+        "refreshToken": ""
     }
 
 }
