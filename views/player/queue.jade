@@ -6,12 +6,21 @@ block nav
 block content
     .wrapper
         .list
-            each entry in playlist.items
+            each entry, index in playlist.items
                 .item
                     if currentSong.uri == entry.track.uri
-                        a.item-swipe(href='/'): b= entry.track.name + ' ' + entry.track.artists.map(a => a.name).join(', ') + ' ' + entry.track.album.name
+                        a.item-swipe.active
+                            img.cover-thumbnail(src=entry.track.album.images[0].url)
+                            p=entry.track.name
+                            p=entry.track.artists.map(a => a.name).join(', ')
+                            p=entry.track.album.name
                     else
-                        a.item-swipe(href='/')= entry.track.name + ' ' + entry.track.artists.map(a => a.name).join(', ') + ' ' + entry.track.album.name
+                        a.item-swipe
+                            img.cover-thumbnail(src=entry.track.album.images[0].url)
+                            p=entry.track.name
+                            p=entry.track.artists.map(a => a.name).join(', ')
+                            p=entry.track.album.name
+                    i.fa.fa-tasks.close
                     .item-back
                         button.action.first.btn-dislike(type='button')
                             i.fa.fa-thumbs-o-down
