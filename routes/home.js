@@ -110,7 +110,8 @@ module.exports = function (app) {
             spotifyApi.setAccessToken(auth[0].accessToken);
             spotifyApi.setRefreshToken(auth[0].refreshToken);
             spotifyApi.skipToNext();
-            res.redirect('/');
+
+            setTimeout(res.redirect('/'), 1500)
         });
     });
 
