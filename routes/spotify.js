@@ -160,7 +160,6 @@ module.exports = function (app) {
     });
 
     app.get('/spotify/addtoplaylist', function (req, res) {
-
         tracks = [
             'spotify:track:60a0Rd6pjrkxjPbaKzXjfq',
         ];
@@ -168,5 +167,16 @@ module.exports = function (app) {
         spotifyApi.addTracksToPlaylist(spotifyUserId, playlistId, tracks).then(data => {
             res.redirect('/spotify');
         }, error => console.error('Cannot add trackto playlist ', error));
+    });
+
+    app.get('/spotify/removefromplaylist', function (req, res) {
+        tracks = [{
+            "positions": [1],
+            "uri": 'spotify:track:60a0Rd6pjrkxjPbaKzXjfq',
+        }];
+
+        spotifyApi.removeTracksFromPlaylist(spotifyUserId, playlistId, tracks).then(data => {
+            res.redirect('/spotify');
+        }, error => console.error('Cannot remove track from playlist ', error));
     });
 }
