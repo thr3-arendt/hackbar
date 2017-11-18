@@ -13,11 +13,11 @@
                     .thumb
                         div(style='background-image:url("' + bg + '")')
                     .title
-                        a(href="/downvote"): i.fa(class=(voted == 'down' ? 'fa-thumbs-down' : 'fa-thumbs-o-down'))
+                        a(href="/downvote/" + currentSong.uri): i.fa(class=(voted == 'down' ? 'fa-thumbs-down' : 'fa-thumbs-o-down'))
                         h3
                             span= currentSong.name
                             small= currentSong.artists.map(a => a.name).join(', ') + ' - ' + currentSong.album.name
-                        a(href="/upvote"): i.fa(class=(voted == 'up' ? 'fa-heart' : 'fa-heart-o'))
+                        a(href="/upvote/" + currentSong.uri): i.fa(class=(voted == 'up' ? 'fa-heart' : 'fa-heart-o'))
         .player
             .controls
                 a.btn.btn-danger(href='/skip', class=hasSkipped ? 'disabled' : '')
