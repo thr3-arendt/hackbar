@@ -10,6 +10,10 @@
     "recaptcha": {
         "publicKey": "{ your recaptcha public key }",
         "privateKey": "{ your recaptcha private key }"
+    },
+    "spotify": {
+        "clientId": "{ your spotify public key }",
+        "clientSecret": "{ your spotify private key }8"
     }
 
 }
