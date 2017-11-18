@@ -1,6 +1,7 @@
 const cron       = require('node-cron');
 const moment     = require('moment');
 const VolumeVote = require('./../models/VolumeVote');
+const SpotifyAuth = require('./../models/SpotifyAuth');
 const SpotifyWebApi = require('spotify-web-api-node');
 const nconf = require('nconf');
 const WebApiRequest = require('./../node_modules/spotify-web-api-node/src/webapi-request');
@@ -11,10 +12,6 @@ const spotifyApi = new SpotifyWebApi({
     clientId:     nconf.get('spotify:clientId'),
     clientSecret: nconf.get('spotify:clientSecret'),
 });
-
-const accessToken = nconf.get('spotify:accessToken');
-spotifyApi.setAccessToken(accessToken);
-
 
 
 let volumeUpdateTask = cron.schedule('*/10 * * * *', function() {
@@ -45,34 +42,37 @@ let volumeUpdateTask = cron.schedule('*/10 * * * *', function() {
 
         let delta = countQuieter < countLouder ? 25 : -25;
 
-        // get current volume level
-        spotifyApi.getMyCurrentPlaybackState().then(data => {
+        SpotifyAuth.find({ username: 'nohr12'}).limit(1).lean().exec().then(auth => {
+            spotifyApi.setAccessToken(auth[0].accessToken);
+            spotifyApi.setRefreshToken(auth[0].refreshToken);
 
-            let volume = data.body.device.volume_percent || 50;
-            console.log('[VolumeUpdateTask] Current volume is ', data.body.device.volume_percent);
+            // get current volume level
+            spotifyApi.getMyCurrentPlaybackState().then(data => {
 
-            volume += delta;
+                let volume = data.body.device.volume_percent || 50;
+                console.log('[VolumeUpdateTask] Current volume is ', data.body.device.volume_percent);
 
-            volume = Math.max(volume, 10);
-            volume = Math.min(volume, 100);
+                volume += delta;
+
+                volume = Math.max(volume, 10);
+                volume = Math.min(volume, 100);
 
 
-            let request = WebApiRequest.builder()
-                .withPath('/v1/me/player/volume')
-                .withQueryParameters({
-                    volume_percent: volume
-                })
-                .build();
+                let request = WebApiRequest.builder()
+                    .withPath('/v1/me/player/volume')
+                    .withQueryParameters({
+                        volume_percent: volume
+                    })
+                    .build();
 
-            request.addHeaders({
-                'Authorization' : 'Bearer ' + accessToken
+                request.addHeaders({
+                    'Authorization' : 'Bearer ' + auth[0].accessToken
+                });
+
+                HttpManager.put(request, (error, result) => {
+                    console.log('[VolumeUpdateTask] Set volume to ' + volume);
+                });
             });
-
-            HttpManager.put(request, (error, result) => {
-                console.log('[VolumeUpdateTask] Set volume to ' + volume);
-            });
-
-
         });
 
     });

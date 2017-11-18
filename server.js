@@ -206,6 +206,7 @@ app.configure(function () {
         cookie: { httpOnly: false },
         store: new MongoStore({ mongooseConnection: mongoose.connection })
     }));
+
     app.use(everyauth.middleware(app));
     app.use(app.router);
     app.use(require('less-middleware')({ src: __dirname + '/public' }));
