@@ -1,4 +1,5 @@
 {
+    "mongodb": "{your db}",
     "facebook": {
         "applicationId": "{your Facebook app ID}",
         "applicationSecret": "{your Facebook app secret}"
@@ -10,6 +11,12 @@
     "recaptcha": {
         "publicKey": "{ your recaptcha public key }",
         "privateKey": "{ your recaptcha private key }"
+    },
+    "spotify": {
+        "clientId": "{ your spotify public key }",
+        "clientSecret": "{ your spotify private key }",
+        "accessToken": "",
+        "refreshToken": ""
     }
 
 }

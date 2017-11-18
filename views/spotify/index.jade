@@ -1,0 +1,16 @@
+extends ../layout
+
+block content
+    h1 Spotify controller
+
+    ul
+        li: a(href="/spotify/play") Play
+        li: a(href="/spotify/pause") Pause
+        li: a(href="/spotify/skipToNext") Skip to next
+        li: a(href="/spotify/volume") Set volume
+        li: a(href="/spotify/currentlyplaying") Currently playing
+        li: a(href="/spotify/playlist/tracks") List playlist tracks
+        li: a(href="/spotify/addtoplaylist") Add song to playlist
+        li: a(href="/spotify/removefromplaylist") Remove song to playlist
+        li: a(href="/spotify/search") Search
+
