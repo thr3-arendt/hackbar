@@ -19,6 +19,7 @@ TrackVotesSchema = new mongoose.Schema({
         required: true,
         default: 0,
     },
+    deleted: Boolean,
 });
 
 let TrackVotes = mongoose.model('TrackVotes', TrackVotesSchema);
