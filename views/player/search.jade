@@ -15,6 +15,10 @@ block content
         if tracks && tracks.length > 0
             .list
                 each track in tracks
-                    .item
-                        span= track.name + ' ' + track.artists.map(a => a.name).join(', ') + ' ' + track.album.name
-                        a.btn.btn-default.float-right(href="/addtrack/" + track.uri) Add
+                    .item-wrapper
+                        .track.float-left
+                            p: b=track.name
+                            p=track.artists.map(a => a.name).join(', ')
+                            p=track.album.name
+                        .cta.float-right
+                            a.btn.btn-default.float-right(href="/addtrack/" + track.uri) Add
