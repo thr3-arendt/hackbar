@@ -13,6 +13,7 @@
     "moment": "^2.19.2",
     "mongoose": "^4.13.4",
     "nconf": "~0.6.7",
+    "node-cron": "^1.2.1",
     "recaptcha": "~1.2.0",
     "socket.io": "~0.9.13",
     "spotify-web-api-node": "^2.5.0"
