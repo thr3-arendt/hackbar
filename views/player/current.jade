@@ -1,11 +1,13 @@
 .wrapper
     .detail.open.ready
         - var bg = currentSong.album.images[0].url
-        .info(style='background-image:url("'+ bg + '")')
+        .info(style='background-image:url("'+ bg + '");background-repeat:no-repeat;background-size:cover')
             .nav
-                if currentSong.external_urls.spotify
-                    a(href=currentSong.external_urls.spotify): i.fa.fa-spotify.close
-                a(href="/queue"): i.fa.fa-tasks.close
+                .overlay
+                .icons
+                    if currentSong.external_urls.spotify
+                        a(href=currentSong.external_urls.spotify): i.fa.fa-spotify.close
+                    a(href="/queue"): i.fa.fa-list.close
             .slider(style='touch-action: pan-y; user-select: none; -webkit-user-drag: none; -webkit-tap-highlight-color: rgba(0, 0, 0, 0);')
                 .slide
                     .thumb

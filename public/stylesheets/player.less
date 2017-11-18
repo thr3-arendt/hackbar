@@ -50,7 +50,7 @@
   position: relative;
   display: flex;
   height: 610px;
-  margin: 10px auto;
+  margin: 0px auto;
 }
 .list {
   width: 100%;
@@ -146,7 +146,7 @@
   i.close {
     opacity: 0;
     position: absolute;
-    right: 15px;
+    right: 60px;
     top: 10px;
     color: #fff;
     font-size: 24px;
@@ -181,11 +181,14 @@
     .title {
       animation: expand-on .5s ease;
     }
-    .nav {
+    .nav .overlay {
       display: block;
       background-color: @white;
       height: 40px;
       opacity: 0.5;
+    }
+    .icons {
+      display: inline-block;
     }
   }
   .player {
