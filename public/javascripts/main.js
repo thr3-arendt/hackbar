@@ -49,3 +49,5 @@ if (progressbar) {
 
     }, 1000);
 }
+
+$('.alert-success').fadeOut(6000);
