@@ -137,4 +137,42 @@ module.exports = function (app) {
             });
         });
     });
+
+    app.get('/search', function (req, res) {
+        res.render('player/search', { tracks: [] });
+    });
+
+    app.post('/search', function (req, res) {
+        let search = req.body.search;
+
+        let options = {
+            limit:  req.query.limit || 30,
+            offset: req.query.offset || 0,
+            market: req.query.market || 'DE',
+        };
+
+        SpotifyAuth.find({ username: 'nohr12'}).limit(1).lean().exec().then(auth => {
+            spotifyApi.setAccessToken(auth[0].accessToken);
+            spotifyApi.setRefreshToken(auth[0].refreshToken);
+
+            spotifyApi.search('in the end', ['track'], options).then(data => {
+                res.render('player/search', { tracks: data.body.tracks.items });
+            }, error => console.error('Cannot search for tracks ', error));
+        });
+    });
+
+    app.get('/addtrack/:track', function (req, res) {
+        let track = req.params.track;
+
+        SpotifyAuth.find({ username: 'nohr12'}).limit(1).lean().exec().then(auth => {
+            spotifyApi.setAccessToken(auth[0].accessToken);
+            spotifyApi.setRefreshToken(auth[0].refreshToken);
+
+            tracks = [track];
+
+            spotifyApi.addTracksToPlaylist(spotifyUserId, playlistId, tracks).then(data => {
+                res.redirect('/queue');
+            }, error => console.error('Cannot add trackto playlist ', error));
+        });
+    });
 }

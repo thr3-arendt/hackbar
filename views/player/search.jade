@@ -1,0 +1,18 @@
+extends ../layout
+
+block nav
+    include ../nav.jade
+
+block content
+    .wrapper
+        form(method="POST", action="/search")
+            .form-group
+                input.form-control(type="text",name="search",placeholder="Search")
+            button(type="submit") Suchen
+
+        if tracks && tracks.length > 0
+            .list
+                each track in tracks
+                    .item
+                        span= track.name + ' ' + track.artists.map(a => a.name).join(', ') + ' ' + track.album.name
+                        a.btn.btn-default(href="/addtrack/" + track.uri) Add
