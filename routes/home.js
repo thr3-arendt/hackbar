@@ -42,6 +42,13 @@ module.exports = function (app) {
         }
 
         SpotifyAuth.find({ username: 'nohr12'}).limit(1).lean().exec().then(auth => {
+
+            if (!auth || auth.length === 0) {
+                // the token expired
+                console.log('Lost auth token along the way. redirecting to spotify auth');
+                return res.redirect('/spotify/auth');
+            }
+
             spotifyApi.setAccessToken(auth[0].accessToken);
             spotifyApi.setRefreshToken(auth[0].refreshToken);
 
@@ -64,6 +71,13 @@ module.exports = function (app) {
         }
 
         SpotifyAuth.find({ username: 'nohr12'}).limit(1).lean().exec().then(auth => {
+
+            if (!auth || auth.length === 0) {
+                // the token expired
+                console.log('Lost auth token along the way. redirecting to spotify auth');
+                return res.redirect('/spotify/auth');
+            }
+
             spotifyApi.setAccessToken(auth[0].accessToken);
             spotifyApi.setRefreshToken(auth[0].refreshToken);
 
@@ -75,6 +89,7 @@ module.exports = function (app) {
 
                 if (req.session.voteTrack[track]) {
                     console.log('You are not allowed to do that anymore');
+                    req.flash('info', 'You\'ve already voted for this song');
                     return res.redirect('/');
                 }
 
@@ -92,6 +107,8 @@ module.exports = function (app) {
 
                     vote.save(() => res.redirect('/'));
 
+                    req.flash('info', 'Upvoted song');
+
                     console.log('Voting up for track ' + track);
                     req.session.voteTrack[track] = 'up';
                 });
@@ -107,6 +124,14 @@ module.exports = function (app) {
         }
 
         SpotifyAuth.find({ username: 'nohr12'}).limit(1).lean().exec().then(auth => {
+
+            if (!auth || auth.length === 0) {
+                // the token expired
+                console.log('Lost auth token along the way. redirecting to spotify auth');
+                req.flash('info', 'You\'ve already voted for this song');
+                return res.redirect('/spotify/auth');
+            }
+
             spotifyApi.setAccessToken(auth[0].accessToken);
             spotifyApi.setRefreshToken(auth[0].refreshToken);
 
@@ -135,6 +160,8 @@ module.exports = function (app) {
 
                     vote.save(() => res.redirect('/'));
 
+                    req.flash('info', 'Downvoted song');
+
                     console.log('Voting down for track ' + track);
                     req.session.voteTrack[track] = 'down';
                 });
@@ -147,16 +174,25 @@ module.exports = function (app) {
 
         if (req.session.hasSkipped) {
             console.log('You are not allowed to skip more than once');
+            req.flash('info', 'You only get one skip a day');
             return res.redirect('/');
         }
 
         SpotifyAuth.find({ username: 'nohr12'}).limit(1).lean().exec().then(auth => {
+
+            if (!auth || auth.length === 0) {
+                // the token expired
+                console.log('Lost auth token along the way. redirecting to spotify auth');
+                return res.redirect('/spotify/auth');
+            }
+
             spotifyApi.setAccessToken(auth[0].accessToken);
             spotifyApi.setRefreshToken(auth[0].refreshToken);
             spotifyApi.skipToNext();
 
             console.log('Skipping current song');
             req.session.hasSkipped = true;
+
             setTimeout(() => res.redirect('/'), 1500);
         });
     });
@@ -174,6 +210,13 @@ module.exports = function (app) {
     // queue
     app.get('/queue', function (req, res) {
         SpotifyAuth.find({ username: 'nohr12'}).limit(1).lean().exec().then(auth => {
+
+            if (!auth || auth.length === 0) {
+                // the token expired
+                console.log('Lost auth token along the way. redirecting to spotify auth');
+                return res.redirect('/spotify/auth');
+            }
+
             spotifyApi.setAccessToken(auth[0].accessToken);
             spotifyApi.setRefreshToken(auth[0].refreshToken);
 
@@ -199,6 +242,13 @@ module.exports = function (app) {
         };
 
         SpotifyAuth.find({ username: 'nohr12'}).limit(1).lean().exec().then(auth => {
+
+            if (!auth || auth.length === 0) {
+                // the token expired
+                console.log('Lost auth token along the way. redirecting to spotify auth');
+                return res.redirect('/spotify/auth');
+            }
+
             spotifyApi.setAccessToken(auth[0].accessToken);
             spotifyApi.setRefreshToken(auth[0].refreshToken);
 
@@ -212,12 +262,20 @@ module.exports = function (app) {
         let track = req.params.track;
 
         SpotifyAuth.find({ username: 'nohr12'}).limit(1).lean().exec().then(auth => {
+
+            if (!auth || auth.length === 0) {
+                // the token expired
+                console.log('Lost auth token along the way. redirecting to spotify auth');
+                return res.redirect('/spotify/auth');
+            }
+
             spotifyApi.setAccessToken(auth[0].accessToken);
             spotifyApi.setRefreshToken(auth[0].refreshToken);
 
             tracks = [track];
 
             spotifyApi.addTracksToPlaylist(spotifyUserId, playlistId, tracks).then(data => {
+                req.flash('info', 'Your track has been added');
                 res.redirect('/queue');
             }, error => console.error('Cannot add trackto playlist ', error));
         });
@@ -227,6 +285,7 @@ module.exports = function (app) {
 
         if (req.session.changeVolumeDate && moment().diff(req.session.changeVolumeDate, 'seconds') < 30) {
             console.log('You are not allowed to do that yet');
+            req.flash('info', 'Pace yourself young padawan');
             return res.redirect('/');
         }
 
@@ -236,6 +295,8 @@ module.exports = function (app) {
 
         req.session.changeVolumeDate = moment();
 
+        req.flash('info', 'Voted to increase the volume');
+
         console.log('Voting for volume up');
 
     });
@@ -244,6 +305,7 @@ module.exports = function (app) {
 
         if (req.session.changeVolumeDate && moment().diff(req.session.changeVolumeDate, 'seconds') < 30) {
             console.log('You are not allowed to do that yet');
+            req.flash('info', 'Pace yourself young padawan');
             return res.redirect('/');
         }
 
@@ -252,6 +314,8 @@ module.exports = function (app) {
         vote.save(() => res.redirect('/'));
 
         req.session.changeVolumeDate = moment();
+
+        req.flash('info', 'Voted to decrease the volume');
 
         console.log('Voting for volume down');
     });

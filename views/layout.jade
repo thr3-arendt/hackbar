@@ -31,6 +31,11 @@ html
     block head
 
   body
+
+    if (messages.info)
+        .message.info(style="position: fixed; top: 10px; right: 10px; width: 220px;z-index:9000000")
+            div.alert.alert-success= messages.info
+
     block nav
 
     //div#body(class="")

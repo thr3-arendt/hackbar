@@ -16,6 +16,7 @@ const express = require('express')
 
 const session = require('express-session');
 const MongoStore = require('connect-mongo')(session);
+const flash = require('express-flash');
 
 
 /**
@@ -206,6 +207,7 @@ app.configure(function () {
         cookie: { httpOnly: false },
         store: new MongoStore({ mongooseConnection: mongoose.connection })
     }));
+    app.use(flash());
 
     app.use(everyauth.middleware(app));
     app.use(app.router);
