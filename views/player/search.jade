@@ -5,14 +5,16 @@ block nav
 
 block content
     .wrapper
-        form(method="POST", action="/search")
+        form(method="POST", action="/search")(style="width:100%")
             .form-group
                 input.form-control(type="text",name="search",placeholder="Search")
-            button(type="submit") Suchen
+            button.btn.waves-effect.waves-light(type='submit', name='action')
+                | Submit
+                i.fa.fa-check
 
         if tracks && tracks.length > 0
             .list
                 each track in tracks
                     .item
                         span= track.name + ' ' + track.artists.map(a => a.name).join(', ') + ' ' + track.album.name
-                        a.btn.btn-default(href="/addtrack/" + track.uri) Add
+                        a.btn.btn-default.float-right(href="/addtrack/" + track.uri) Add
