@@ -355,6 +355,7 @@ button {
   opacity: 1;
   transform: translateX(0);
   transition: all .4s ease;
+  font-size: 16px;
 }
 .detail.ready .info .thumb {
   opacity: 1;

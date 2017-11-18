@@ -2,7 +2,7 @@
     .detail.open.ready
         .info
             a(href="/queue")
-                i.zmdi.zmdi-close.close
+                i.fa.fa-tasks.close
             .slider(style='touch-action: pan-y; user-select: none; -webkit-user-drag: none; -webkit-tap-highlight-color: rgba(0, 0, 0, 0);')
                 .slide
                     .thumb
@@ -19,6 +19,10 @@
                 a.btn.btn-danger(href='/skip')
                     i.fa.fa-step-forward
                     |  Skip title
+                br
+                .btn-group
+                    a.btn.btn-default(href="/volume/down"): i.fa.fa-volume-down
+                    a.btn.btn-default(href="/volume/up"): i.fa.fa-volume-up
             .track
                 audio.audio(preload='true', crossorigin='anonymous')
                 canvas.analyser

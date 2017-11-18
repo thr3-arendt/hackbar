@@ -3,6 +3,7 @@ module.exports = function (app) {
     const SpotifyWebApi = require('spotify-web-api-node');
     const nconf         = require('nconf');
     const TrackVote  = require('./../models/TrackVote');
+    const VolumeVote = require('./../models/VolumeVote');
 
     const WebApiRequest = require('./../node_modules/spotify-web-api-node/src/webapi-request');
     const HttpManager  = require('./../node_modules/spotify-web-api-node/src/http-manager');
@@ -175,5 +176,17 @@ module.exports = function (app) {
                 res.redirect('/queue');
             }, error => console.error('Cannot add trackto playlist ', error));
         });
+    });
+
+    app.get('/volume/up', function (req, res) {
+        vote = new VolumeVote();
+        vote.vote = true;
+        vote.save(() => res.redirect('/'));
+    });
+
+    app.get('/volume/down', function (req, res) {
+        vote = new VolumeVote();
+        vote.vote = false;
+        vote.save(() => res.redirect('/'));
     });
 }
