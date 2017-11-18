@@ -6,11 +6,14 @@ button {
 .list {
 	.item {
 		border-bottom: 1px solid @lightgray;
-		height: 40px;
+		height: 100px;
 		.item-swipe {
 			background: @white;
 			padding: 10px;
 			z-index: 1;
+            div {
+              width: 50%;
+            }
 			&.open {
 				background: @white;
 				&:before {
@@ -25,15 +28,21 @@ button {
 				}
 			}
 		}
-		a {
-			&.item-swipe {
-				color: @dark;
-				text-decoration: inherit;
-				&:active {
-					color: inherit;
-				}
-			}
-		}
+
+        .item-swipe {
+            color: @dark;
+            text-decoration: inherit;
+            .cover-thumbnail {
+              float: left;
+              width: 80px;
+              height: 80px;
+              margin-right: 10px;
+            }
+            &:active {
+                color: inherit;
+            }
+        }
+
 		.item-back {
 			background: @white;
 			padding: 10px;
@@ -64,6 +73,6 @@ button {
 	background: @firebrick;
 }
 
-.btn-check {
-	background: @green;
+.btn-dislike {
+	background: @dark;
 }

@@ -3,12 +3,15 @@ button {
 }
 .list .item {
   border-bottom: 1px solid #e1e1e1;
-  height: 40px;
+  height: 100px;
 }
 .list .item .item-swipe {
   background: #ffffff;
   padding: 10px;
   z-index: 1;
+}
+.list .item .item-swipe div {
+  width: 50%;
 }
 .list .item .item-swipe.open {
   background: #ffffff;
@@ -23,11 +26,17 @@ button {
   position: absolute;
   right: 10px;
 }
-.list .item a.item-swipe {
+.list .item .item-swipe {
   color: #333333;
   text-decoration: inherit;
 }
-.list .item a.item-swipe:active {
+.list .item .item-swipe .cover-thumbnail {
+  float: left;
+  width: 80px;
+  height: 80px;
+  margin-right: 10px;
+}
+.list .item .item-swipe:active {
   color: inherit;
 }
 .list .item .item-back {
@@ -56,8 +65,8 @@ button {
 .btn-like {
   background: #b22222;
 }
-.btn-check {
-  background: #008000;
+.btn-dislike {
+  background: #333333;
 }
 /*************************************************/
 @keyframes expand-on {
@@ -112,9 +121,7 @@ button {
   position: relative;
   display: flex;
   height: 610px;
-  width: 365px;
   margin: 10px auto;
-  box-shadow: 0px 2px 15px #ddc;
 }
 .list {
   width: 100%;
@@ -385,7 +392,7 @@ button {
   display: none;
   float: left;
   display: flex;
-  width: 365px;
+  width: 400px;
 }
 .slider .slide:nth-child(1) {
   display: flex !important;
