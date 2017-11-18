@@ -117,7 +117,6 @@ button {
   }
 }
 .wrapper {
-  background-color: #f8f8f8;
   position: relative;
   display: flex;
   height: 610px;
@@ -244,8 +243,17 @@ button {
   opacity: 1;
   animation: fade-in 0.6s ease;
 }
+.detail.open .info img {
+  opacity: 0.5;
+}
 .detail.open .info .title {
   animation: expand-on 0.5s ease;
+}
+.detail.open .info .nav {
+  display: block;
+  background-color: #ffffff;
+  height: 40px;
+  opacity: 0.5;
 }
 .detail.open .player {
   animation: expand-on 0.25s ease;
@@ -392,13 +400,15 @@ button {
   display: none;
   float: left;
   display: flex;
-  width: 400px;
+  max-width: 400px;
+  height: 400px;
 }
 .slider .slide:nth-child(1) {
   display: flex !important;
 }
 .slider .slide .thumb {
-  height: 365px;
+  min-height: 300px;
+  max-height: 365px;
   position: relative;
   transition: transform 0.6s cubic-bezier(0.51, 0.92, 0.24, 1);
 }
@@ -407,7 +417,7 @@ button {
   top: 0;
   left: 0;
   width: 100%;
-  height: calc(51%);
+  height: 100%;
   background-size: cover;
   transition: transform 0.4s cubic-bezier(0.51, 0.92, 0.24, 1);
 }
@@ -416,7 +426,6 @@ button {
 }
 .slider .slide .thumb > div:last-child {
   background-position: bottom left;
-  top: 50%;
 }
 .slide .thumb.skewLeft > div {
   transition: all 0.6s cubic-bezier(0.51, 0.92, 0.24, 1);
