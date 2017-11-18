@@ -1,8 +1,9 @@
 .wrapper
     .detail.open.ready
         .info
-            a(href="/queue")
-                i.fa.fa-tasks.close
+            if currentSong.external_urls.spotify
+                a(href=currentSong.external_urls.spotify): i.fa.fa-spotify.close
+            a(href="/queue"): i.fa.fa-tasks.close
             .slider(style='touch-action: pan-y; user-select: none; -webkit-user-drag: none; -webkit-tap-highlight-color: rgba(0, 0, 0, 0);')
                 .slide
                     .thumb
