@@ -6,8 +6,10 @@
     "start": "node server"
   },
   "dependencies": {
+    "connect-mongo": "^2.0.0",
     "everyauth": "https://github.com/bnoguchi/everyauth/tarball/express3",
     "express": "~3.1.0",
+    "express-session": "^1.15.6",
     "jade": "*",
     "less-middleware": "*",
     "moment": "^2.19.2",
