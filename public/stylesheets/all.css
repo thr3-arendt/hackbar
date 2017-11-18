@@ -809,6 +809,53 @@ a.fill-div {
 .squished {
   line-height: 0.9;
 }
+.music-list {
+  display: flex;
+  flex-direction: column;
+  max-width: 100%;
+}
+.music-list-entry {
+  padding-left: 0.5em;
+  padding-top: 0.5em;
+  padding-bottom: 0.5em;
+  display: flex;
+  flex-direction: row;
+}
+.music-list-entry + .music-list-entry {
+  border-top: 1px solid #E0E0E0;
+}
+.music-list-entry.active {
+  background: rgba(43, 187, 173, 0.3);
+}
+.music-list-art-image {
+  max-width: 20vmin;
+}
+.music-list-vote {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+.music-list-vote a {
+  font-size: 150%;
+  padding-left: 0.5em;
+  padding-right: 0.5em;
+}
+.music-list-description {
+  padding: 0.5em;
+  display: flex;
+  flex-direction: column;
+  align-items: left;
+  justify-content: center;
+  min-width: 0;
+}
+.music-list-description div {
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+  max-width: 100%;
+  padding-right: 1em;
+}
 * {
   box-sizing: border-box;
 }

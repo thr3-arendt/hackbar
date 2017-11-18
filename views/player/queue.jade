@@ -1,26 +1,26 @@
 extends ../layout
 
 block nav
-    include ../nav.jade
+    div.flex-container(style="background-color: #E0E0E0;")
+        a(href='/', style="padding-left: 1em; padding-right: 1em; color: #000;")
+            i.fa.fa-angle-left.fa-2x
+        div.navbar-text.text-center.fg-1 Current Queue
 
 block content
-    .wrapper
-        .list
-            each entry, index in playlist.items
-                .item
-                    if currentSong.uri == entry.track.uri
-                        a.item-swipe.active
-                            img.cover-thumbnail(src=entry.track.album.images[0].url)
-                            p: b=entry.track.name + ' (currently playing)'
-                            p: b=entry.track.artists.map(a => a.name).join(', ')
-                    else
-                        a.item-swipe
-                            img.cover-thumbnail(src=entry.track.album.images[0].url)
-                            p=entry.track.name
-                            p=entry.track.artists.map(a => a.name).join(', ')
-                    i.fa.fa-tasks.close
-                    .item-back
-                        a.action.first.btn-dislike(href="/downvote/" + entry.track.uri)
-                            i.fa(class=(voted[entry.track.uri] == 'down' ? 'fa-thumbs-down' : 'fa-thumbs-o-down'))
-                        a.action.second.btn-like(href="/upvote/" + entry.track.uri)
-                            i.fa(class=(voted[entry.track.uri] == 'up' ? 'fa-heart' : 'fa-heart-o'))
+    .music-list
+        each entry, index in playlist.items
+            .music-list-entry(class=(currentSong.uri == entry.track.uri || index == 2)? 'active': '')
+                .music-list-art
+                    img.music-list-art-image(src=entry.track.album.images[0].url)
+                .music-list-description.fg-1
+                    div: b=entry.track.name
+                    div=entry.track.artists.map(a => a.name).join(', ')
+                .music-list-vote
+                    a(href="/upvote/" + entry.track.uri)
+                        i.fa(class=(voted[entry.track.uri] == 'up' ? 'fa-thumbs-up' : 'fa-thumbs-o-up'))
+                    a(href="/downvote/" + entry.track.uri)
+                        i.fa(class=(voted[entry.track.uri] == 'down' ? 'fa-thumbs-down' : 'fa-thumbs-o-down'))
+
+    div.fixed-action-btn
+        a.btn-floating.btn-large.waves-effect.waves-light.red(href='search')
+            i.material-icons add
