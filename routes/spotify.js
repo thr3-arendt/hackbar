@@ -28,7 +28,8 @@ module.exports = function (app) {
     spotifyApi.setAccessToken(accessToken);
     spotifyApi.setRefreshToken(nconf.get('spotify:refreshToken'));
 
-
+    const spotifyUserId = 'nohr12';
+    const playlistId    = '6H8QlMzlm6jG1vfBFDy7s0';
 
 
     app.get('/spotify', function (req, res) {
@@ -137,5 +138,11 @@ module.exports = function (app) {
         HttpManager.put(request, (error, result) => {
             res.redirect('/spotify');
         });
+    });
+
+    app.get('/spotify/playlist/tracks', function(req, res) {
+        spotifyApi.getPlaylistTracks(spotifyUserId, playlistId).then(data => {
+            res.render('spotify/playlist-tracks', { output: data.body });
+        }, error => console.error('Cannot fetch playlist tracks ', error));
     });
 }
