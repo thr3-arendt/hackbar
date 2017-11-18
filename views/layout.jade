@@ -16,6 +16,8 @@ html
     link(rel='stylesheet', href='/stylesheets/all.css')
     link(rel='stylesheet prefetch', href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.4.0/css/font-awesome.min.css')
     link(rel='stylesheet prefetch', href='https://fonts.googleapis.com/css?family=Roboto:400,400italic,300italic,300,700,700italic')
+    script(src='/javascripts/jquery-1.8.3.min.js')
+    script(src='/javascripts/modernizr.js')
 
     block head
 
@@ -34,11 +36,12 @@ html
             li(class="active")
               a(href="#") Home
             li
-              a(href="#") About
+              a(href="/spotify") Spotify controls
             li
-              a(href="#") Contact
+              a(href="/vote/volume") Volume voting
             li
-              a(href="/card") Music Card
+              a(href="/chat") Chat
+
     //div#body(class="")
     block content
 

@@ -5,19 +5,21 @@
 * include any modules you will use through out the file
 **/
 
-var express = require('express')
+const express = require('express')
   , http = require('http')
   , nconf = require('nconf')
   , path = require('path')
   , everyauth = require('everyauth')
-  , Recaptcha = require('recaptcha').Recaptcha;
+  , Recaptcha = require('recaptcha').Recaptcha
+  , mongoose = require('mongoose')
+  , moment = require('moment');
 
 
 /**
 * CONFIGURATION
 * -------------------------------------------------------------------------------------------------
-* load configuration settings from ENV, then settings.json.  Contains keys for OAuth logins. See 
-* settings.example.json.  
+* load configuration settings from ENV, then settings.json.  Contains keys for OAuth logins. See
+* settings.example.json.
 **/
 nconf.env().file({ file: 'settings.json' });
 
@@ -144,7 +146,7 @@ everyauth
         if (newUserAttrs.password != confirmPassword) errors.push('Passwords must match');
         if (usersByLogin[login]) errors.push('Login already taken');
 
-        // validate the recaptcha 
+        // validate the recaptcha
         var recaptcha = new Recaptcha(nconf.get('recaptcha:publicKey'), nconf.get('recaptcha:privateKey'), newUserAttrs.data);
         recaptcha.verify(function (success, error_code) {
             if (!success) {
@@ -194,6 +196,8 @@ app.configure(function () {
     app.use(express.static(path.join(__dirname, 'public')));
 });
 
+app.locals.moment = moment;
+
 app.configure('development', function () {
     app.use(express.errorHandler());
 });
@@ -205,47 +209,49 @@ app.configure('development', function () {
 **/
 require('./routes/home')(app);
 require('./routes/account')(app);
+require('./routes/spotify')(app);
+require('./routes/voting')(app);
 
 
 var server = http.createServer(app);
 
 /**
-* CHAT / SOCKET.IO 
+* CHAT / SOCKET.IO
 * -------------------------------------------------------------------------------------------------
 * this shows a basic example of using socket.io to orchestrate chat
 **/
 
 // socket.io configuration
-var buffer = [];
-var io = require('socket.io').listen(server);
+// var buffer = [];
+// var io = require('socket.io').listen(server);
 
 
-io.configure(function () {
-    io.set("transports", ["xhr-polling"]);
-    io.set("polling duration", 100);
-});
+// io.configure(function () {
+//     io.set("transports", ["xhr-polling"]);
+//     io.set("polling duration", 100);
+// });
 
-io.sockets.on('connection', function (socket) {
-    socket.emit('messages', { buffer: buffer });
-    socket.on('setname', function (name) {
-        socket.set('name', name, function () {
-            socket.broadcast.emit('announcement', { announcement: name + ' connected' });
-        });
-    });
-    socket.on('message', function (message) {
-        socket.get('name', function (err, name) {
-            var msg = { message: [name, message] };
-            buffer.push(msg);
-            if (buffer.length > 15) buffer.shift();
-            socket.broadcast.emit('message', msg);
-        })
-    });
-    socket.on('disconnect', function () {
-        socket.get('name', function (err, name) {
-            socket.broadcast.emit('announcement', { announcement: name + ' disconnected' });
-        })
-    })
-});
+// io.sockets.on('connection', function (socket) {
+//     socket.emit('messages', { buffer: buffer });
+//     socket.on('setname', function (name) {
+//         socket.set('name', name, function () {
+//             socket.broadcast.emit('announcement', { announcement: name + ' connected' });
+//         });
+//     });
+//     socket.on('message', function (message) {
+//         socket.get('name', function (err, name) {
+//             var msg = { message: [name, message] };
+//             buffer.push(msg);
+//             if (buffer.length > 15) buffer.shift();
+//             socket.broadcast.emit('message', msg);
+//         })
+//     });
+//     socket.on('disconnect', function () {
+//         socket.get('name', function (err, name) {
+//             socket.broadcast.emit('announcement', { announcement: name + ' disconnected' });
+//         })
+//     })
+// });
 
 
 /**
@@ -253,6 +259,12 @@ io.sockets.on('connection', function (socket) {
 * -------------------------------------------------------------------------------------------------
 * this starts up the server on the given port
 **/
+
+mongoose.connect(nconf.get('mongodb'), { useMongoClient: true });
+mongoose.connection.on('error', console.error.bind(console, 'connection error:'));
+mongoose.connection.once('open', function() {
+  console.log('Connected to database');
+});
 
 server.listen(app.get('port'), function () {
     console.log("Express server listening on port " + app.get('port'));
