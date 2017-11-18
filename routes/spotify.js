@@ -7,7 +7,8 @@ module.exports = function (app) {
     const HttpManager  = require('./../node_modules/spotify-web-api-node/src/http-manager');
 
     let scopes = ['user-read-private', 'user-read-email', 'streaming', 'user-read-playback-state',
-        'user-modify-playback-state', 'user-read-currently-playing'];
+        'user-modify-playback-state', 'user-read-currently-playing',
+        'playlist-modify-public'];
 
     let redirectUri  = 'http://localhost:3000/spotify/callback';
     let clientId     = nconf.get('spotify:clientId');
@@ -156,5 +157,16 @@ module.exports = function (app) {
         spotifyApi.search('in the end', ['track'], options).then(data => {
             res.render('spotify/search', { output: data.body });
         }, error => console.error('Cannot search for tracks ', error));
+    });
+
+    app.get('/spotify/addtoplaylist', function (req, res) {
+
+        tracks = [
+            'spotify:track:60a0Rd6pjrkxjPbaKzXjfq',
+        ];
+
+        spotifyApi.addTracksToPlaylist(spotifyUserId, playlistId, tracks).then(data => {
+            res.redirect('/spotify');
+        }, error => console.error('Cannot add trackto playlist ', error));
     });
 }
