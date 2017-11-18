@@ -6,7 +6,7 @@ TrackVotesSchema = new mongoose.Schema({
     id: Number,
     track: {
         type: String,
-        index: { unique: true },
+        index: true,
         required: true,
     },
     vote_positive: {

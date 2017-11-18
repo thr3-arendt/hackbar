@@ -78,7 +78,7 @@ module.exports = function (app) {
                     return res.redirect('/');
                 }
 
-                TrackVote.find({ track: track }).limit(1).exec().then(votes => {
+                TrackVote.find({ track: track, deleted: { $ne: true } }).limit(1).exec().then(votes => {
 
                     let vote = null;
                     if (!votes || votes.length === 0) {
@@ -121,7 +121,7 @@ module.exports = function (app) {
                     return res.redirect('/');
                 }
 
-                TrackVote.find({ track: track }).limit(1).exec().then(votes => {
+                TrackVote.find({ track: track, deleted: { $ne: true } }).limit(1).exec().then(votes => {
 
                     let vote = null;
                     if (!votes || votes.length === 0) {
