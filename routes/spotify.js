@@ -78,6 +78,7 @@ module.exports = function (app) {
                     if (error) {
                         console.log('Could not save spotify auth', error);
                     }
+                    req.flash('info', 'Reauthenticated Spotify account');
                     console.log('Saved auths');
                     res.redirect('/');
                 });
