@@ -1,0 +1,94 @@
+extends ../layout
+
+- if (typeof(artist) == 'undefined')
+    title unknown artist
+- else
+    artist=artist
+
+- if (typeof(album) == 'undefined')
+    title unknown album
+- else
+    album=album
+
+- if (typeof(endtime) == 'undefined')
+    title 0:00
+- else
+    endtime=endtime
+
+
+block nav
+    include ../nav.jade
+
+block content
+    .wrapper
+        .list
+            .item
+                a.item-swipe(href='/?title=Song1&artist=test&album=test&endtime=3:22') Song 1
+                .item-back
+                    button.action.first.btn-dislike(type='button')
+                        i.fa.fa-thumbs-o-down
+                    button.action.second.btn-like(type='button')
+                        i.fa.fa-heart-o
+            .item
+                a.item-swipe(href='#') Song 2
+                .item-back
+                    button.action.first.btn-dislike(type='button')
+                        i.fa.fa-thumbs-o-down
+                    button.action.second.btn-like(type='button')
+                        i.fa.fa-heart-o
+            .item
+                a.item-swipe(href='#') Song 3
+                .item-back
+                    button.action.first.btn-dislike(type='button')
+                        i.fa.fa-thumbs-o-down
+                    button.action.second.btn-like(type='button')
+                        i.fa.fa-heart-o
+            .item
+                a.item-swipe(href='#') Song 4
+                .item-back
+                    button.action.first.btn-dislike(type='button')
+                        i.fa.fa-thumbs-o-down
+                    button.action.second.btn-like(type='button')
+                        i.fa.fa-heart-o
+            .item
+                a.item-swipe(href='#') Song 5
+                .item-back
+                    button.action.first.btn-dislike(type='button')
+                        i.fa.fa-thumbs-o-down
+                    button.action.second.btn-like(type='button')
+                        i.fa.fa-heart-o
+            .item
+                a.item-swipe(href='#') Song 6
+                .item-back
+                    button.action.first.btn-dislike(type='button')
+                        i.fa.fa-thumbs-o-down
+                    button.action.second.btn-like(type='button')
+                        i.fa.fa-heart-o
+            .item
+                a.item-swipe(href='#') Song 7
+                .item-back
+                    button.action.first.btn-dislike(type='button')
+                        i.fa.fa-thumbs-o-down
+                    button.action.second.btn-like(type='button')
+                        i.fa.fa-heart-o
+            .item
+                a.item-swipe(href='#') Song 8
+                .item-back
+                    button.action.first.btn-dislike(type='button')
+                        i.fa.fa-thumbs-o-down
+                    button.action.second.btn-like(type='button')
+                        i.fa.fa-heart-o
+            .item
+                a.item-swipe(href='#') Song 8
+                .item-back
+                    button.action.first.btn-dislike(type='button')
+                        i.fa.fa-thumbs-o-down
+                    button.action.second.btn-like(type='button')
+                        i.fa.fa-heart-o
+            .item
+                a.item-swipe(href='#') Song 9
+                .item-back
+                    button.action.first.btn-dislike(type='button')
+                        i.fa.fa-thumbs-o-down
+                    button.action.second.btn-like(type='button')
+                        i.fa.fa-heart-o

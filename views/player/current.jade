@@ -1,0 +1,30 @@
+.wrapper
+    .detail.open.ready
+        .info
+            a(href="/queue")
+                i.zmdi.zmdi-close.close
+            .slider(style='touch-action: pan-y; user-select: none; -webkit-user-drag: none; -webkit-tap-highlight-color: rgba(0, 0, 0, 0);')
+                .slide
+                    .thumb
+                        div(style='background-image:url("/images/cover.jpeg")')
+                        div(style='background-image:url("/images/cover.jpeg")')
+                    .title
+                        i.fa.fa-thumbs-o-down
+                        h3
+                            span=title
+                            small=artist
+                            small=album
+                        i.fa.fa-heart-o
+        .player
+            .controls
+                a.btn.btn-danger(href='#')
+                    //i.fa.fa-step-forward
+                    |  Skip title
+            .track
+                audio.audio(preload='true', crossorigin='anonymous')
+                canvas.analyser
+                .progress
+                    .bar
+                .counter
+                    span.begin 0:00
+                    span.end=endtime
