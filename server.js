@@ -217,36 +217,36 @@ var server = http.createServer(app);
 **/
 
 // socket.io configuration
-var buffer = [];
-var io = require('socket.io').listen(server);
+// var buffer = [];
+// var io = require('socket.io').listen(server);
 
 
-io.configure(function () {
-    io.set("transports", ["xhr-polling"]);
-    io.set("polling duration", 100);
-});
+// io.configure(function () {
+//     io.set("transports", ["xhr-polling"]);
+//     io.set("polling duration", 100);
+// });
 
-io.sockets.on('connection', function (socket) {
-    socket.emit('messages', { buffer: buffer });
-    socket.on('setname', function (name) {
-        socket.set('name', name, function () {
-            socket.broadcast.emit('announcement', { announcement: name + ' connected' });
-        });
-    });
-    socket.on('message', function (message) {
-        socket.get('name', function (err, name) {
-            var msg = { message: [name, message] };
-            buffer.push(msg);
-            if (buffer.length > 15) buffer.shift();
-            socket.broadcast.emit('message', msg);
-        })
-    });
-    socket.on('disconnect', function () {
-        socket.get('name', function (err, name) {
-            socket.broadcast.emit('announcement', { announcement: name + ' disconnected' });
-        })
-    })
-});
+// io.sockets.on('connection', function (socket) {
+//     socket.emit('messages', { buffer: buffer });
+//     socket.on('setname', function (name) {
+//         socket.set('name', name, function () {
+//             socket.broadcast.emit('announcement', { announcement: name + ' connected' });
+//         });
+//     });
+//     socket.on('message', function (message) {
+//         socket.get('name', function (err, name) {
+//             var msg = { message: [name, message] };
+//             buffer.push(msg);
+//             if (buffer.length > 15) buffer.shift();
+//             socket.broadcast.emit('message', msg);
+//         })
+//     });
+//     socket.on('disconnect', function () {
+//         socket.get('name', function (err, name) {
+//             socket.broadcast.emit('announcement', { announcement: name + ' disconnected' });
+//         })
+//     })
+// });
 
 
 /**
