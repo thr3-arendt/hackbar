@@ -1,4 +1,5 @@
 {
+    "mongodb": "{your db}",
     "facebook": {
         "applicationId": "{your Facebook app ID}",
         "applicationSecret": "{your Facebook app secret}"

@@ -5,12 +5,13 @@
 * include any modules you will use through out the file
 **/
 
-var express = require('express')
+const express = require('express')
   , http = require('http')
   , nconf = require('nconf')
   , path = require('path')
   , everyauth = require('everyauth')
-  , Recaptcha = require('recaptcha').Recaptcha;
+  , Recaptcha = require('recaptcha').Recaptcha
+  , mongoose = require('mongoose');
 
 
 /**
@@ -206,6 +207,7 @@ app.configure('development', function () {
 require('./routes/home')(app);
 require('./routes/account')(app);
 require('./routes/spotify')(app);
+require('./routes/voting')(app);
 
 
 var server = http.createServer(app);
@@ -254,6 +256,12 @@ var server = http.createServer(app);
 * -------------------------------------------------------------------------------------------------
 * this starts up the server on the given port
 **/
+
+mongoose.connect(nconf.get('mongodb'), { useMongoClient: true });
+mongoose.connection.on('error', console.error.bind(console, 'connection error:'));
+mongoose.connection.once('open', function() {
+  console.log('Connected to database');
+});
 
 server.listen(app.get('port'), function () {
     console.log("Express server listening on port " + app.get('port'));
