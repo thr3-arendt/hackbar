@@ -1,0 +1,14 @@
+extends ../layout
+
+block content
+    h1 Volume votes
+
+    .btn-group
+        a.btn.btn-default(href='/vote/volume-up') Up
+        a.btn.btn-default(href='/vote/volume-down') Down
+    br
+    br
+    ul
+        each vote in votes
+            li= vote.date + ' ' + (vote.vote ? 'Up' : 'Down')
+
