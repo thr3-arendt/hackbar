@@ -1,0 +1,121 @@
+.list .item {
+  border-bottom: 1px solid #e1e1e1;
+  height: 40px;
+}
+.list .item .item-swipe {
+  background: #ffffff;
+  padding: 10px;
+  z-index: 1;
+}
+.list .item .item-swipe.open {
+  background: #ffffff;
+}
+.list .item .item-swipe.open:before {
+  content: "\f00d";
+  font-family: FontAwesome;
+  font-style: normal;
+  font-weight: normal;
+  text-decoration: inherit;
+  color: #ffffff;
+  position: absolute;
+  right: 10px;
+}
+.list .item a.item-swipe {
+  color: #333333;
+  text-decoration: inherit;
+}
+.list .item a.item-swipe:active {
+  color: inherit;
+}
+.list .item .item-back {
+  background: #ffffff;
+  padding: 10px;
+  text-align: right;
+}
+.list .item .item-back .action {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  width: 50px;
+  border: inherit;
+  outline: inherit;
+  color: #ffffff;
+  padding: 0;
+  font-size: 22px;
+}
+.list .item .item-back .action.first {
+  right: 0;
+}
+.list .item .item-back .action.second {
+  right: 50px;
+}
+.btn-delete {
+  background: #b22222;
+}
+.btn-check {
+  background: #008000;
+}
+* {
+  box-sizing: border-box;
+}
+body {
+  margin: inherit;
+}
+.overflow-hidden {
+  overflow: hidden;
+}
+.list {
+  width: 100%;
+  overflow: hidden;
+}
+.list .item {
+  position: relative;
+}
+.list .item .item-swipe {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+}
+.list .item .item-swipea {
+  display: block;
+  height: 100%;
+  position: relative;
+  text-decoration: inherit;
+}
+.list .item .item-swipe.swiped {
+  -webkit-transition: all 0.1s linear;
+  -ms-transition: all 0.1s linear;
+  -moz-transition: all 0.1s linear;
+  -o-transition: all 0.1s linear;
+  transition: all 0.1s linear;
+}
+.list .item .item-back {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+}
+#chat {
+  border: 1px solid #999;
+  background-color: #ddd;
+  overflow: auto;
+  height: 150px;
+  margin-bottom: 10px;
+  padding: 10px;
+}
+.user-me {
+  font-weight: bold;
+  color: #f00;
+}
+.user {
+  font-weight: bold;
+  color: #00f;
+}
+.system {
+  color: #999;
+  font-style: italic;
+}

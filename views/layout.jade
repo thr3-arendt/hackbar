@@ -1,18 +1,21 @@
 doctype 5
 html
   head
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    meta(charset='UTF-8')
+    meta(http-equiv='X-UA-Compatible" content="IE=edge')
+    meta(name='viewport', content='width=device-width, initial-scale=1')
+    meta(name='robots', content='noindex')
     - if (typeof(title) == 'undefined')
-        title Express Starter Template
+        title hackbar
     - else
         title= title
 
     // include default stylesheets and any view stylesheets
 
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    link(rel='stylesheet', href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css')
+    link(rel='stylesheet', href='/stylesheets/all.css')
+    link(rel='stylesheet prefetch', href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.4.0/css/font-awesome.min.css')
+    link(rel='stylesheet prefetch', href='https://fonts.googleapis.com/css?family=Roboto:400,400italic,300italic,300,700,700italic')
 
     block head
 
@@ -34,9 +37,13 @@ html
               a(href="#") About
             li
               a(href="#") Contact
-    div#body(class="container")
-        block content
+            li
+              a(href="/card") Music Card
+    //div#body(class="")
+    block content
 
     footer
       div(class="container")
+          p
+          p
           p &copy; HackaTUM !{(new Date()).getFullYear()}
