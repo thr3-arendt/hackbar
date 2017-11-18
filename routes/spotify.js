@@ -145,4 +145,16 @@ module.exports = function (app) {
             res.render('spotify/playlist-tracks', { output: data.body });
         }, error => console.error('Cannot fetch playlist tracks ', error));
     });
+
+    app.get('/spotify/search', function (req, res) {
+        let options = {
+            limit:  req.query.limit || 10,
+            offset: req.query.offset || 0,
+            market: req.query.market || 'DE',
+        };
+
+        spotifyApi.search('in the end', ['track'], options).then(data => {
+            res.render('spotify/search', { output: data.body });
+        }, error => console.error('Cannot search for tracks ', error));
+    });
 }
