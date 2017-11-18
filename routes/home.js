@@ -42,6 +42,13 @@ module.exports = function (app) {
         }
 
         SpotifyAuth.find({ username: 'nohr12'}).limit(1).lean().exec().then(auth => {
+
+            if (!auth || auth.length === 0) {
+                // the token expired
+                console.log('Lost auth token along the way. redirecting to spotify auth');
+                return res.redirect('/spotify/auth');
+            }
+
             spotifyApi.setAccessToken(auth[0].accessToken);
             spotifyApi.setRefreshToken(auth[0].refreshToken);
 
@@ -64,6 +71,13 @@ module.exports = function (app) {
         }
 
         SpotifyAuth.find({ username: 'nohr12'}).limit(1).lean().exec().then(auth => {
+
+            if (!auth || auth.length === 0) {
+                // the token expired
+                console.log('Lost auth token along the way. redirecting to spotify auth');
+                return res.redirect('/spotify/auth');
+            }
+
             spotifyApi.setAccessToken(auth[0].accessToken);
             spotifyApi.setRefreshToken(auth[0].refreshToken);
 
@@ -107,6 +121,13 @@ module.exports = function (app) {
         }
 
         SpotifyAuth.find({ username: 'nohr12'}).limit(1).lean().exec().then(auth => {
+
+            if (!auth || auth.length === 0) {
+                // the token expired
+                console.log('Lost auth token along the way. redirecting to spotify auth');
+                return res.redirect('/spotify/auth');
+            }
+
             spotifyApi.setAccessToken(auth[0].accessToken);
             spotifyApi.setRefreshToken(auth[0].refreshToken);
 
@@ -151,6 +172,13 @@ module.exports = function (app) {
         }
 
         SpotifyAuth.find({ username: 'nohr12'}).limit(1).lean().exec().then(auth => {
+
+            if (!auth || auth.length === 0) {
+                // the token expired
+                console.log('Lost auth token along the way. redirecting to spotify auth');
+                return res.redirect('/spotify/auth');
+            }
+
             spotifyApi.setAccessToken(auth[0].accessToken);
             spotifyApi.setRefreshToken(auth[0].refreshToken);
             spotifyApi.skipToNext();
@@ -174,6 +202,13 @@ module.exports = function (app) {
     // queue
     app.get('/queue', function (req, res) {
         SpotifyAuth.find({ username: 'nohr12'}).limit(1).lean().exec().then(auth => {
+
+            if (!auth || auth.length === 0) {
+                // the token expired
+                console.log('Lost auth token along the way. redirecting to spotify auth');
+                return res.redirect('/spotify/auth');
+            }
+
             spotifyApi.setAccessToken(auth[0].accessToken);
             spotifyApi.setRefreshToken(auth[0].refreshToken);
 
@@ -199,6 +234,13 @@ module.exports = function (app) {
         };
 
         SpotifyAuth.find({ username: 'nohr12'}).limit(1).lean().exec().then(auth => {
+
+            if (!auth || auth.length === 0) {
+                // the token expired
+                console.log('Lost auth token along the way. redirecting to spotify auth');
+                return res.redirect('/spotify/auth');
+            }
+
             spotifyApi.setAccessToken(auth[0].accessToken);
             spotifyApi.setRefreshToken(auth[0].refreshToken);
 
@@ -212,6 +254,13 @@ module.exports = function (app) {
         let track = req.params.track;
 
         SpotifyAuth.find({ username: 'nohr12'}).limit(1).lean().exec().then(auth => {
+
+            if (!auth || auth.length === 0) {
+                // the token expired
+                console.log('Lost auth token along the way. redirecting to spotify auth');
+                return res.redirect('/spotify/auth');
+            }
+
             spotifyApi.setAccessToken(auth[0].accessToken);
             spotifyApi.setRefreshToken(auth[0].refreshToken);
 

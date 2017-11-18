@@ -79,7 +79,7 @@ module.exports = function (app) {
                         console.log('Could not save spotify auth', error);
                     }
                     console.log('Saved auths');
-                    res.redirect('/spotify');
+                    res.redirect('/');
                 });
             });
 
