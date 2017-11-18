@@ -19,6 +19,7 @@ let trackUpdateTask = cron.schedule('*/2 * * * *', function () {
     TrackVote.find({ deleted: { $ne: true } }).exec().then(votes => {
 
         if (!votes || votes.length === 0) {
+            console.log('No votes found');
             return;
         }
 
@@ -30,6 +31,8 @@ let trackUpdateTask = cron.schedule('*/2 * * * *', function () {
             spotifyApi.setRefreshToken(auth[0].refreshToken);
 
             spotifyApi.getPlaylistTracks(spotifyUserId, playlistId).then(playlist => {
+
+                console.log('fetched playlist');
 
                 let tracks = [];
                 // go through each vote and check if it needs to be removed
