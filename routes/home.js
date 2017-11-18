@@ -2,7 +2,7 @@ module.exports = function (app) {
 
     // home page
     app.get('/', function (req, res) {
-        res.render('index', { title:'', artist:'', album:'', endttime:'' })
+        res.render('index', { title:''})
     });
 
     // chat area

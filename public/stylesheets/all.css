@@ -59,49 +59,7 @@ button {
 .btn-check {
   background: #008000;
 }
-* {
-  box-sizing: border-box;
-}
-body {
-  margin: inherit;
-}
-.overflow-hidden {
-  overflow: hidden;
-}
-.list {
-  width: 100%;
-  overflow: hidden;
-}
-.list .item {
-  position: relative;
-}
-.list .item .item-swipe {
-  position: absolute;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  left: 0;
-}
-.list .item .item-swipea {
-  display: block;
-  height: 100%;
-  position: relative;
-  text-decoration: inherit;
-}
-.list .item .item-swipe.swiped {
-  -webkit-transition: all 0.1s linear;
-  -ms-transition: all 0.1s linear;
-  -moz-transition: all 0.1s linear;
-  -o-transition: all 0.1s linear;
-  transition: all 0.1s linear;
-}
-.list .item .item-back {
-  position: absolute;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  left: 0;
-}
+/*************************************************/
 @keyframes expand-on {
   from {
     transform: translateY(160px);
@@ -132,8 +90,8 @@ body {
 }
 /*************************************************/
 /*.detail .info img { width: 100%; }
-.detail .info img { opacity: 0 }
-.detail.lock .info img { opacity: 0 !important; }
+.detail .info img { opacity: 0 } 
+.detail.lock .info img { opacity: 0 !important; } 
 .detail.ready .info img { opacity: 1; animation: fade-in .4s ease }*/
 /* this must be important */
 /*#4f6 #82d*/
@@ -149,18 +107,12 @@ body {
     height: 20%;
   }
 }
-body {
-  font-family: 'Roboto', sans-serif;
-  color: #444;
-  background-color: #f3f3f3;
-  background-color: #e3e3e3;
-}
 .wrapper {
   background-color: #f8f8f8;
   position: relative;
   display: flex;
   height: 610px;
-  width: 100%;
+  width: 365px;
   margin: 10px auto;
   box-shadow: 0px 2px 15px #ddc;
 }
@@ -360,6 +312,7 @@ body {
   justify-content: space-between;
   font-size: 11px;
   font-weight: 500;
+  letter-spacing: .5;
   color: #666;
   margin-top: 5px;
 }
@@ -395,24 +348,7 @@ body {
   justify-content: space-around;
   align-items: center;
 }
-.player .controls i {
-  opacity: 0;
-  font-size: 26px;
-  color: #666;
-}
-.player .controls i:nth-child(1) {
-  transform: translateX(80px);
-}
-.player .controls i:nth-child(2) {
-  transform: translateX(40px);
-}
-.player .controls i:nth-child(4) {
-  transform: translateX(-40px);
-}
-.player .controls i:nth-child(5) {
-  transform: translateX(-80px);
-}
-.player .controls .zmdi-skip-next {
+.player .controls .fa-step-forward {
   cursor: pointer;
 }
 .detail.ready .info .title > * {
@@ -448,7 +384,7 @@ body {
   display: none;
   float: left;
   display: flex;
-  width: 400px;
+  width: 365px;
 }
 .slider .slide:nth-child(1) {
   display: flex !important;
@@ -749,6 +685,49 @@ body {
 .wrapper.paused .player-indicator .playb:before {
   content: "►";
   display: block;
+}
+* {
+  box-sizing: border-box;
+}
+body {
+  margin: inherit;
+}
+.overflow-hidden {
+  overflow: hidden;
+}
+.list {
+  width: 100%;
+  overflow: hidden;
+}
+.list .item {
+  position: relative;
+}
+.list .item .item-swipe {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+}
+.list .item .item-swipea {
+  display: block;
+  height: 100%;
+  position: relative;
+  text-decoration: inherit;
+}
+.list .item .item-swipe.swiped {
+  -webkit-transition: all 0.1s linear;
+  -ms-transition: all 0.1s linear;
+  -moz-transition: all 0.1s linear;
+  -o-transition: all 0.1s linear;
+  transition: all 0.1s linear;
+}
+.list .item .item-back {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
 }
 #chat {
   border: 1px solid #999;

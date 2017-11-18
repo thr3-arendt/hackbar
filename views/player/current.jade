@@ -11,14 +11,13 @@
                     .title
                         i.fa.fa-thumbs-o-down
                         h3
-                            span=title
-                            small=artist
-                            small=album
+                            span  Song Title
+                            small Artist - Album
                         i.fa.fa-heart-o
         .player
             .controls
                 a.btn.btn-danger(href='#')
-                    //i.fa.fa-step-forward
+                    i.fa.fa-step-forward
                     |  Skip title
             .track
                 audio.audio(preload='true', crossorigin='anonymous')
@@ -27,4 +26,4 @@
                     .bar
                 .counter
                     span.begin 0:00
-                    span.end=endtime
+                    span.end 3:20
