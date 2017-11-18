@@ -6,6 +6,8 @@ module.exports = function (app) {
     const WebApiRequest = require('./../node_modules/spotify-web-api-node/src/webapi-request');
     const HttpManager  = require('./../node_modules/spotify-web-api-node/src/http-manager');
 
+    const SpotifyAuth = require('./../models/SpotifyAuth');
+
     let scopes = ['user-read-private', 'user-read-email', 'streaming', 'user-read-playback-state',
         'user-modify-playback-state', 'user-read-currently-playing',
         'playlist-modify-public'];
@@ -25,10 +27,6 @@ module.exports = function (app) {
     * Hardcoded oauth tokens
     * -------------------------------------------------------------------------------------------------
     **/
-    let accessToken = nconf.get('spotify:accessToken');
-    spotifyApi.setAccessToken(accessToken);
-    spotifyApi.setRefreshToken(nconf.get('spotify:refreshToken'));
-
     const spotifyUserId = 'nohr12';
     const playlistId    = '6H8QlMzlm6jG1vfBFDy7s0';
 
@@ -70,13 +68,24 @@ module.exports = function (app) {
             req.session.accessToken  = data.body['access_token'];
             req.session.refreshToken = data.body['refresh_token'];
 
-            console.log('Set session: ', req.session.accessToken);
+            let spotifyAuth = new SpotifyAuth();
+            spotifyAuth.accessToken  = data.body['access_token'];
+            spotifyAuth.refreshToken = data.body['refresh_token'];
 
-            res.redirect('/spotify');
+            // delete old one first
+            SpotifyAuth.find({ username: 'nohr12'}).remove(() => {
+                spotifyAuth.save((error, auth) => {
+                    if (error) {
+                        console.log('Could not save spotify auth', error);
+                    }
+                    console.log('Saved auths');
+                    res.redirect('/spotify');
+                });
+            });
 
         }, error => { console.error('Cant authorize code grant', error) });
 
-        res.render('spotify/callback', { title: 'Callback' })
+        // res.render('spotify/callback', { title: 'Callback' })
     });
 
 
@@ -87,96 +96,143 @@ module.exports = function (app) {
     **/
 
     app.get('/spotify/currentlyplaying', function (req, res) {
-        spotifyApi.getMyCurrentPlaybackState().then(data => {
-            res.render('spotify/current', { output: data.body });
-        }, error => console.log('Cannot get current playback state ', error));
+
+        SpotifyAuth.find({ username: 'nohr12'}).limit(1).lean().exec().then(auth => {
+            spotifyApi.setAccessToken(auth[0].accessToken);
+            spotifyApi.setRefreshToken(auth[0].refreshToken);
+
+            spotifyApi.getMyCurrentPlaybackState().then(data => {
+                res.render('spotify/current', { output: data.body });
+            }, error => console.log('Cannot get current playback state ', error));
+        });
     });
 
     app.get('/spotify/devices', function (req, res) {
 
-        console.log(req.session.accessToken);
+        SpotifyAuth.find({ username: 'nohr12'}).limit(1).lean().exec().then(auth => {
+            spotifyApi.setAccessToken(auth[0].accessToken);
+            spotifyApi.setRefreshToken(auth[0].refreshToken);
 
-        spotifyApi.getMyDevices().then(data => {
-                console.log('My devices', data.body);
-            }, error => console.log('Could not fetch devices ', error));
+            spotifyApi.getMyDevices().then(data => {
+                    console.log('My devices', data.body);
+                }, error => console.log('Could not fetch devices ', error));
 
-        res.render('index');
+            res.render('index');
+        });
     });
 
     app.get('/spotify/play', function (req, res) {
-        spotifyApi.play();
-        res.redirect('/spotify');
+        SpotifyAuth.find({ username: 'nohr12'}).limit(1).lean().exec().then(auth => {
+            spotifyApi.setAccessToken(auth[0].accessToken);
+            spotifyApi.setRefreshToken(auth[0].refreshToken);
+
+            spotifyApi.play();
+            res.redirect('/spotify');
+        });
     });
 
     app.get('/spotify/pause', function (req, res) {
-        spotifyApi.pause();
-        res.redirect('/spotify');
+        SpotifyAuth.find({ username: 'nohr12'}).limit(1).lean().exec().then(auth => {
+            spotifyApi.setAccessToken(auth[0].accessToken);
+            spotifyApi.setRefreshToken(auth[0].refreshToken);
+            spotifyApi.pause();
+            res.redirect('/spotify');
+        });
     });
 
     app.get('/spotify/skipToNext', function (req, res) {
-        spotifyApi.skipToNext();
-        res.redirect('/spotify');
+        SpotifyAuth.find({ username: 'nohr12'}).limit(1).lean().exec().then(auth => {
+            spotifyApi.setAccessToken(auth[0].accessToken);
+            spotifyApi.setRefreshToken(auth[0].refreshToken);
+            spotifyApi.skipToNext();
+            res.redirect('/spotify');
+        });
     });
 
     app.get('/spotify/volume', function (req, res) {
 
-        let volume = req.query.volume || 75;
+        SpotifyAuth.find({ username: 'nohr12'}).limit(1).lean().exec().then(auth => {
+            spotifyApi.setAccessToken(auth[0].accessToken);
+            spotifyApi.setRefreshToken(auth[0].refreshToken);
 
-        // does not exist in the library
-        // own implementation ftw
+            let volume = req.query.volume || 75;
 
-        let request = WebApiRequest.builder()
-            .withPath('/v1/me/player/volume')
-            .withQueryParameters({
-                volume_percent: volume
-            })
-            .build();
+            // does not exist in the library
+            // own implementation ftw
 
-        request.addHeaders({
-            'Authorization' : 'Bearer ' + accessToken
-        });
+            let request = WebApiRequest.builder()
+                .withPath('/v1/me/player/volume')
+                .withQueryParameters({
+                    volume_percent: volume
+                })
+                .build();
 
-        HttpManager.put(request, (error, result) => {
-            res.redirect('/spotify');
+            request.addHeaders({
+                'Authorization' : 'Bearer ' + auth[0].accessToken
+            });
+
+            HttpManager.put(request, (error, result) => {
+                res.redirect('/spotify');
+            });
         });
     });
 
     app.get('/spotify/playlist/tracks', function(req, res) {
-        spotifyApi.getPlaylistTracks(spotifyUserId, playlistId).then(data => {
-            res.render('spotify/playlist-tracks', { output: data.body });
-        }, error => console.error('Cannot fetch playlist tracks ', error));
+        SpotifyAuth.find({ username: 'nohr12'}).limit(1).lean().exec().then(auth => {
+            spotifyApi.setAccessToken(auth[0].accessToken);
+            spotifyApi.setRefreshToken(auth[0].refreshToken);
+
+            spotifyApi.getPlaylistTracks(spotifyUserId, playlistId).then(data => {
+                res.render('spotify/playlist-tracks', { output: data.body });
+            }, error => console.error('Cannot fetch playlist tracks ', error));
+        });
     });
 
     app.get('/spotify/search', function (req, res) {
-        let options = {
-            limit:  req.query.limit || 10,
-            offset: req.query.offset || 0,
-            market: req.query.market || 'DE',
-        };
+        SpotifyAuth.find({ username: 'nohr12'}).limit(1).lean().exec().then(auth => {
+            spotifyApi.setAccessToken(auth[0].accessToken);
+            spotifyApi.setRefreshToken(auth[0].refreshToken);
 
-        spotifyApi.search('in the end', ['track'], options).then(data => {
-            res.render('spotify/search', { output: data.body });
-        }, error => console.error('Cannot search for tracks ', error));
+            let options = {
+                limit:  req.query.limit || 10,
+                offset: req.query.offset || 0,
+                market: req.query.market || 'DE',
+            };
+
+            spotifyApi.search('in the end', ['track'], options).then(data => {
+                res.render('spotify/search', { output: data.body });
+            }, error => console.error('Cannot search for tracks ', error));
+        });
     });
 
     app.get('/spotify/addtoplaylist', function (req, res) {
-        tracks = [
-            'spotify:track:60a0Rd6pjrkxjPbaKzXjfq',
-        ];
+        SpotifyAuth.find({ username: 'nohr12'}).limit(1).lean().exec().then(auth => {
+            spotifyApi.setAccessToken(auth[0].accessToken);
+            spotifyApi.setRefreshToken(auth[0].refreshToken);
 
-        spotifyApi.addTracksToPlaylist(spotifyUserId, playlistId, tracks).then(data => {
-            res.redirect('/spotify');
-        }, error => console.error('Cannot add trackto playlist ', error));
+            tracks = [
+                'spotify:track:60a0Rd6pjrkxjPbaKzXjfq',
+            ];
+
+            spotifyApi.addTracksToPlaylist(spotifyUserId, playlistId, tracks).then(data => {
+                res.redirect('/spotify');
+            }, error => console.error('Cannot add trackto playlist ', error));
+        });
     });
 
     app.get('/spotify/removefromplaylist', function (req, res) {
-        tracks = [{
-            "positions": [1],
-            "uri": 'spotify:track:60a0Rd6pjrkxjPbaKzXjfq',
-        }];
+        SpotifyAuth.find({ username: 'nohr12'}).limit(1).lean().exec().then(auth => {
+            spotifyApi.setAccessToken(auth[0].accessToken);
+            spotifyApi.setRefreshToken(auth[0].refreshToken);
 
-        spotifyApi.removeTracksFromPlaylist(spotifyUserId, playlistId, tracks).then(data => {
-            res.redirect('/spotify');
-        }, error => console.error('Cannot remove track from playlist ', error));
+            tracks = [{
+                "positions": [1],
+                "uri": 'spotify:track:60a0Rd6pjrkxjPbaKzXjfq',
+            }];
+
+            spotifyApi.removeTracksFromPlaylist(spotifyUserId, playlistId, tracks).then(data => {
+                res.redirect('/spotify');
+            }, error => console.error('Cannot remove track from playlist ', error));
+        });
     });
 }

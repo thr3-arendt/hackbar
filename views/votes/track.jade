@@ -1,0 +1,19 @@
+extends ../layout
+
+block content
+    h1 Track votes
+
+    form(action="/vote/track", method="POST")
+        .form-group
+            label Track
+            input.form-control(name="track", type="text", value="spotify:track:60a0Rd6pjrkxjPbaKzXjfq")
+        .button-group
+            button.btn.btn-success(type="submit", name="vote", value="up") Upvote
+            button.btn.btn-danger(type="submit", name="vote", value="down") Down
+
+    br
+    br
+
+    ul
+        each vote in votes
+            li= vote.track + ' (' + vote.vote_positive + ', ' + vote.vote_negative + ')'

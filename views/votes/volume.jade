@@ -8,6 +8,11 @@ block content
         a.btn.btn-default(href='/vote/volume-down') Down
     br
     br
+    hr
+    p= 'Cutoff: ' + cutoffDate.format('HH:mm')
+    pre= JSON.stringify(aggregatedResult, null, 4)
+    hr
+    br
     ul
         each vote in votes
             li= moment(vote.date).format('HH:mm') + ' ' + (vote.vote ? 'Up' : 'Down')

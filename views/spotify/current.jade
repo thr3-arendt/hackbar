@@ -2,4 +2,18 @@ extends ../layout
 
 block content
     h1 Currently playing
+    dl
+        dt Albums
+        dd= output.item.album.name
+        dt Artists
+        dd= output.item.artists.map(a => a.name).join(', ')
+        dt Song
+        dd= output.item.name
+        dt URI
+        dd= output.item.uri
+        dt Duration
+        dd= output.item.duration_ms
+        dt Cover
+        dd= output.item.album.images[0].url
+
     pre= JSON.stringify(output, null, 4)

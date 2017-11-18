@@ -2,4 +2,24 @@ extends ../layout
 
 block content
     h1 Playlist tracks
+
+    ul
+        each row, index in output.items
+            li
+                dl
+                    dt Position
+                    dd= index
+                    dt Albums
+                    dd= row.track.album.name
+                    dt Artists
+                    dd= row.track.artists.map(a => a.name).join(', ')
+                    dt Song
+                    dd= row.track.name
+                    dt URI
+                    dd= row.track.uri
+                    dt Duration
+                    dd= row.track.duration_ms
+                    dt Cover
+                    dd= row.track.album.images[0].url
+
     pre= JSON.stringify(output, null, 4)

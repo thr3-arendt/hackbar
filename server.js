@@ -14,6 +14,9 @@ const express = require('express')
   , mongoose = require('mongoose')
   , moment = require('moment');
 
+const session = require('express-session');
+const MongoStore = require('connect-mongo')(session);
+
 
 /**
 * CONFIGURATION
@@ -23,6 +26,12 @@ const express = require('express')
 **/
 nconf.env().file({ file: 'settings.json' });
 
+
+mongoose.connect(nconf.get('mongodb'), { useMongoClient: true });
+mongoose.connection.on('error', console.error.bind(console, 'connection error:'));
+mongoose.connection.once('open', function() {
+  console.log('Connected to database');
+});
 
 
 /**
@@ -189,7 +198,15 @@ app.configure(function () {
     app.use(express.bodyParser());
     app.use(express.methodOverride());
     app.use(express.cookieParser('azure zomg'));
-    app.use(express.session());
+    // app.use(express.session());
+    app.use(session({
+        secret: 'secret key',
+        resave: true,
+        saveUninitialized: true,
+        cookie: { httpOnly: false },
+        store: new MongoStore({ mongooseConnection: mongoose.connection })
+    }));
+
     app.use(everyauth.middleware(app));
     app.use(app.router);
     app.use(require('less-middleware')({ src: __dirname + '/public' }));
@@ -259,13 +276,17 @@ var server = http.createServer(app);
 * -------------------------------------------------------------------------------------------------
 * this starts up the server on the given port
 **/
-/*
+
+
 mongoose.connect(nconf.get('mongodb'), { useMongoClient: true });
 mongoose.connection.on('error', console.error.bind(console, 'connection error:'));
 mongoose.connection.once('open', function() {
   console.log('Connected to database');
 });
-*/
+
 server.listen(app.get('port'), function () {
     console.log("Express server listening on port " + app.get('port'));
+
+    require('./crons/volume');
+    require('./crons/track');
 });
