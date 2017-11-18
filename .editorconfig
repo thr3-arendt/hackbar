@@ -1,0 +1,16 @@
+; top-most EditorConfig file
+root = true
+
+; Unix-style newlines
+[*]
+indent_style = space
+end_of_line = LF
+charset = utf-8
+
+[*.js]
+indent_size = 4
+indent_style = space
+
+[{*.twig,*.html,*.json,*.js,*.css,*.scss,*.pug}]
+indent_style = space
+indent_size = 2
