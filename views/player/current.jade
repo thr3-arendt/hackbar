@@ -34,8 +34,8 @@
                 .counter
                     - var minutes = Math.floor(progress_ms / (1000 * 60))
                     - var seconds = Math.floor((progress_ms - minutes * 60 * 1000) / (1000))
-                    span.begin= minutes + ':' + (seconds < 10 ? '0'+seconds : seconds)
+                    span.begin(data-start=progress_ms)= minutes + ':' + (seconds < 10 ? '0'+seconds : seconds)
 
                     - var minutes = Math.floor(currentSong.duration_ms / (1000 * 60))
                     - var seconds = Math.floor((currentSong.duration_ms - minutes * 60 * 1000) / (1000))
-                    span.end= minutes + ':' + (seconds < 10 ? '0'+seconds : seconds)
+                    span.end(data-end=currentSong.duration_ms)= minutes + ':' + (seconds < 10 ? '0'+seconds : seconds)
