@@ -1,24 +1,29 @@
 extends ../layout
 
 block nav
-    include ../nav.jade
+    div.flex-container(style="background-color: #E0E0E0;")
+        a(href='queue', style="padding-left: 1em; padding-right: 1em; color: #000;")
+            i.fa.fa-angle-left.fa-2x
+        div.navbar-text.text-center.fg-1 Add song
 
 block content
-    .wrapper
+    .container-fluid
         form(method="POST", action="/search")(style="width:100%")
             .form-group
                 input.form-control(type="text",name="search",placeholder="Search")
-            button.btn.waves-effect.waves-light(type='submit', name='action')
+            button.btn.btn-block.waves-effect.waves-light(type='submit', name='action')
                 | Submit
-                i.fa.fa-check
 
         if tracks && tracks.length > 0
+            h4 Search Results
             .list
                 each track in tracks
-                    .item-wrapper
-                        .track.float-left
-                            p: b=track.name
-                            p=track.artists.map(a => a.name).join(', ')
-                            p=track.album.name
-                        .cta.float-right
-                            a.btn.btn-default.float-right(href="/addtrack/" + track.uri) Add
+                    .music-list-entry
+                        .music-list-art
+                            img.music-list-art-image(src=track.album.images[0].url)
+                        .music-list-description.fg-1
+                            div: b=track.name
+                            div=track.artists.map(a => a.name).join(', ')
+                        .music-list-vote
+                            a(href="/addtrack/" + track.uri)
+                                i.material-icons add
