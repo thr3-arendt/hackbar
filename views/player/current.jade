@@ -9,14 +9,14 @@
                         div(style='background-image:url("' + currentSong.album.images[0].url + '")')
                         div(style='background-image:url("' + currentSong.album.images[0].url + '")')
                     .title
-                        a(href="/downvote"): i.fa.fa-thumbs-o-down
+                        a(href="/downvote"): i.fa(class=(voted == 'down' ? 'fa-thumbs-down' : 'fa-thumbs-o-down'))
                         h3
                             span= currentSong.name
                             small= currentSong.artists.map(a => a.name).join(', ') + ' - ' + currentSong.album.name
-                        a(href="/upvote"): i.fa.fa-heart-o
+                        a(href="/upvote"): i.fa(class=(voted == 'up' ? 'fa-heart' : 'fa-heart-o'))
         .player
             .controls
-                a.btn.btn-danger(href='/skip')
+                a.btn.btn-danger(href='/skip', class=hasSkipped ? 'disabled' : '')
                     i.fa.fa-step-forward
                     |  Skip title
                 br

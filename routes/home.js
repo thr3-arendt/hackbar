@@ -18,6 +18,7 @@ module.exports = function (app) {
     let clientId     = nconf.get('spotify:clientId');
     let clientSecret = nconf.get('spotify:clientSecret');
     let state        = 'some-state-of-my-choice';
+    const moment     = require('moment');
 
     const spotifyApi = new SpotifyWebApi({
         redirectUri : redirectUri,
@@ -36,17 +37,32 @@ module.exports = function (app) {
     // home page
     app.get('/', function (req, res) {
 
+        if (!req.session.voteTrack) {
+            req.session.voteTrack = {};
+        }
+
         SpotifyAuth.find({ username: 'nohr12'}).limit(1).lean().exec().then(auth => {
             spotifyApi.setAccessToken(auth[0].accessToken);
             spotifyApi.setRefreshToken(auth[0].refreshToken);
 
             spotifyApi.getMyCurrentPlaybackState().then(data => {
-                res.render('index', { title:'', currentSong: data.body.item, progress_ms: data.body.progress_ms });
+                res.render('index', {
+                    title:'',
+                    currentSong: data.body.item,
+                    progress_ms: data.body.progress_ms,
+                    voted:       req.session.voteTrack[data.body.item.uri],
+                    hasSkipped:  req.session.hasSkipped == true, // type casting hell
+                });
             }, error => console.log('Cannot get current playback state ', error));
         });
     });
 
     app.get('/upvote', function (req, res) {
+
+        if (!req.session.voteTrack) {
+            req.session.voteTrack = {};
+        }
+
         SpotifyAuth.find({ username: 'nohr12'}).limit(1).lean().exec().then(auth => {
             spotifyApi.setAccessToken(auth[0].accessToken);
             spotifyApi.setRefreshToken(auth[0].refreshToken);
@@ -56,6 +72,11 @@ module.exports = function (app) {
                 let currentSong = data.body.item;
                 let track = currentSong.uri;
                 console.log('URI for upvote', track);
+
+                if (req.session.voteTrack[track]) {
+                    console.log('You are not allowed to do that anymore');
+                    return res.redirect('/');
+                }
 
                 TrackVote.find({ track: track }).limit(1).exec().then(votes => {
 
@@ -70,6 +91,9 @@ module.exports = function (app) {
                     vote.vote_positive++;
 
                     vote.save(() => res.redirect('/'));
+
+                    console.log('Voting up for track ' + track);
+                    req.session.voteTrack[track] = 'up';
                 });
 
             }, error => console.log('Cannot get current playback state ', error));
@@ -77,6 +101,11 @@ module.exports = function (app) {
     });
 
     app.get('/downvote', function (req, res) {
+
+        if (!req.session.voteTrack) {
+            req.session.voteTrack = {};
+        }
+
         SpotifyAuth.find({ username: 'nohr12'}).limit(1).lean().exec().then(auth => {
             spotifyApi.setAccessToken(auth[0].accessToken);
             spotifyApi.setRefreshToken(auth[0].refreshToken);
@@ -86,6 +115,11 @@ module.exports = function (app) {
                 let currentSong = data.body.item;
                 let track = currentSong.uri;
                 console.log('URI for upvote', track);
+
+                if (req.session.voteTrack[track]) {
+                    console.log('You are not allowed to do that anymore');
+                    return res.redirect('/');
+                }
 
                 TrackVote.find({ track: track }).limit(1).exec().then(votes => {
 
@@ -100,6 +134,9 @@ module.exports = function (app) {
                     vote.vote_negative++;
 
                     vote.save(() => res.redirect('/'));
+
+                    console.log('Voting down for track ' + track);
+                    req.session.voteTrack[track] = 'down';
                 });
 
             }, error => console.log('Cannot get current playback state ', error));
@@ -107,12 +144,20 @@ module.exports = function (app) {
     });
 
     app.get('/skip', function (req, res) {
+
+        if (req.session.hasSkipped) {
+            console.log('You are not allowed to skip more than once');
+            return res.redirect('/');
+        }
+
         SpotifyAuth.find({ username: 'nohr12'}).limit(1).lean().exec().then(auth => {
             spotifyApi.setAccessToken(auth[0].accessToken);
             spotifyApi.setRefreshToken(auth[0].refreshToken);
             spotifyApi.skipToNext();
 
-            setTimeout(res.redirect('/'), 1500)
+            console.log('Skipping current song');
+            req.session.hasSkipped = true;
+            setTimeout(() => res.redirect('/'), 1500);
         });
     });
 
@@ -179,14 +224,35 @@ module.exports = function (app) {
     });
 
     app.get('/volume/up', function (req, res) {
+
+        if (req.session.changeVolumeDate && moment().diff(req.session.changeVolumeDate, 'seconds') < 30) {
+            console.log('You are not allowed to do that yet');
+            return res.redirect('/');
+        }
+
         vote = new VolumeVote();
         vote.vote = true;
         vote.save(() => res.redirect('/'));
+
+        req.session.changeVolumeDate = moment();
+
+        console.log('Voting for volume up');
+
     });
 
     app.get('/volume/down', function (req, res) {
+
+        if (req.session.changeVolumeDate && moment().diff(req.session.changeVolumeDate, 'seconds') < 30) {
+            console.log('You are not allowed to do that yet');
+            return res.redirect('/');
+        }
+
         vote = new VolumeVote();
         vote.vote = false;
         vote.save(() => res.redirect('/'));
+
+        req.session.changeVolumeDate = moment();
+
+        console.log('Voting for volume down');
     });
 }
