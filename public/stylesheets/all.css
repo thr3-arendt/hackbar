@@ -825,7 +825,11 @@ a.fill-div {
   border-top: 1px solid #E0E0E0;
 }
 .music-list-entry.active {
-  background: rgba(43, 187, 173, 0.3);
+  background: #2bbbad;
+}
+.music-list-entry.active,
+.music-list-entry.active a {
+  color: #fff;
 }
 .music-list-art-image {
   max-width: 20vmin;

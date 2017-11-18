@@ -844,11 +844,17 @@
     display: flex;
     flex-direction: row;
 }
+
 .music-list-entry + .music-list-entry {
     border-top: 1px solid #E0E0E0;
 }
+
 .music-list-entry.active {
-    background: rgba(43,187,173, 0.3)
+    background: rgba(43,187,173, 1);
+}
+
+.music-list-entry.active, .music-list-entry.active a {
+    color: #fff;
 }
 
 .music-list-art-image {

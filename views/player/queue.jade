@@ -16,9 +16,9 @@ block content
                     div: b=entry.track.name
                     div=entry.track.artists.map(a => a.name).join(', ')
                 .music-list-vote
-                    a(href="/upvote/" + entry.track.uri)
+                    a.control-button(href="/upvote/" + entry.track.uri)
                         i.fa(class=(voted[entry.track.uri] == 'up' ? 'fa-thumbs-up' : 'fa-thumbs-o-up'))
-                    a(href="/downvote/" + entry.track.uri)
+                    a.control-button(href="/downvote/" + entry.track.uri)
                         i.fa(class=(voted[entry.track.uri] == 'down' ? 'fa-thumbs-down' : 'fa-thumbs-o-down'))
 
     div.fixed-action-btn
