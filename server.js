@@ -277,13 +277,6 @@ var server = http.createServer(app);
 * this starts up the server on the given port
 **/
 
-
-mongoose.connect(nconf.get('mongodb'), { useMongoClient: true });
-mongoose.connection.on('error', console.error.bind(console, 'connection error:'));
-mongoose.connection.once('open', function() {
-  console.log('Connected to database');
-});
-
 server.listen(app.get('port'), function () {
     console.log("Express server listening on port " + app.get('port'));
 

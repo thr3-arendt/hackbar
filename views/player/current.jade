@@ -6,24 +6,31 @@
             .slider(style='touch-action: pan-y; user-select: none; -webkit-user-drag: none; -webkit-tap-highlight-color: rgba(0, 0, 0, 0);')
                 .slide
                     .thumb
-                        div(style='background-image:url("/images/cover.jpeg")')
-                        div(style='background-image:url("/images/cover.jpeg")')
+                        div(style='background-image:url("' + currentSong.album.images[0].url + '")')
+                        div(style='background-image:url("' + currentSong.album.images[0].url + '")')
                     .title
-                        i.fa.fa-thumbs-o-down
+                        a(href="/downvote"): i.fa.fa-thumbs-o-down
                         h3
-                            span  Song Title
-                            small Artist - Album
-                        i.fa.fa-heart-o
+                            span= currentSong.name
+                            small= currentSong.artists.map(a => a.name).join(', ') + ' - ' + currentSong.album.name
+                        a(href="/upvote"): i.fa.fa-heart-o
         .player
             .controls
-                a.btn.btn-danger(href='#')
+                a.btn.btn-danger(href='/skip')
                     i.fa.fa-step-forward
                     |  Skip title
             .track
                 audio.audio(preload='true', crossorigin='anonymous')
                 canvas.analyser
                 .progress
-                    .bar
+                    - var percent = Math.round(progress_ms / currentSong.duration_ms * 100)
+                    .progress-bar(aria-valuenow=percent, aria-valuemin="0", aria-valuemax="100", style="width: "+percent+"%;")
+                        span.sr-only= percent + '% Complete'
                 .counter
-                    span.begin 0:00
-                    span.end 3:20
+                    - var minutes = Math.floor(progress_ms / (1000 * 60))
+                    - var seconds = Math.floor((progress_ms - minutes * 60 * 1000) / (1000))
+                    span.begin= minutes + ':' + seconds
+
+                    - var minutes = Math.floor(currentSong.duration_ms / (1000 * 60))
+                    - var seconds = Math.floor((currentSong.duration_ms - minutes * 60 * 1000) / (1000))
+                    span.end= minutes + ':' + seconds
