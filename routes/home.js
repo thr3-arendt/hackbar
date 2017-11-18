@@ -126,6 +126,15 @@ module.exports = function (app) {
 
     // queue
     app.get('/queue', function (req, res) {
-        res.render('player/queue')
+        SpotifyAuth.find({ username: 'nohr12'}).limit(1).lean().exec().then(auth => {
+            spotifyApi.setAccessToken(auth[0].accessToken);
+            spotifyApi.setRefreshToken(auth[0].refreshToken);
+
+            spotifyApi.getMyCurrentPlaybackState().then(currentData => {
+                spotifyApi.getPlaylistTracks(spotifyUserId, playlistId).then(data => {
+                    res.render('player/queue', { playlist: data.body, currentSong: currentData.body.item })
+                }, error => console.error('Cannot fetch playlist tracks ', error));
+            });
+        });
     });
 }

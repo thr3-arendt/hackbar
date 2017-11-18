@@ -6,73 +6,14 @@ block nav
 block content
     .wrapper
         .list
-            .item
-                a.item-swipe(href='/') Song 1
-                .item-back
-                    button.action.first.btn-dislike(type='button')
-                        i.fa.fa-thumbs-o-down
-                    button.action.second.btn-like(type='button')
-                        i.fa.fa-heart-o
-            .item
-                a.item-swipe(href='#') Song 2
-                .item-back
-                    button.action.first.btn-dislike(type='button')
-                        i.fa.fa-thumbs-o-down
-                    button.action.second.btn-like(type='button')
-                        i.fa.fa-heart-o
-            .item
-                a.item-swipe(href='#') Song 3
-                .item-back
-                    button.action.first.btn-dislike(type='button')
-                        i.fa.fa-thumbs-o-down
-                    button.action.second.btn-like(type='button')
-                        i.fa.fa-heart-o
-            .item
-                a.item-swipe(href='#') Song 4
-                .item-back
-                    button.action.first.btn-dislike(type='button')
-                        i.fa.fa-thumbs-o-down
-                    button.action.second.btn-like(type='button')
-                        i.fa.fa-heart-o
-            .item
-                a.item-swipe(href='#') Song 5
-                .item-back
-                    button.action.first.btn-dislike(type='button')
-                        i.fa.fa-thumbs-o-down
-                    button.action.second.btn-like(type='button')
-                        i.fa.fa-heart-o
-            .item
-                a.item-swipe(href='#') Song 6
-                .item-back
-                    button.action.first.btn-dislike(type='button')
-                        i.fa.fa-thumbs-o-down
-                    button.action.second.btn-like(type='button')
-                        i.fa.fa-heart-o
-            .item
-                a.item-swipe(href='#') Song 7
-                .item-back
-                    button.action.first.btn-dislike(type='button')
-                        i.fa.fa-thumbs-o-down
-                    button.action.second.btn-like(type='button')
-                        i.fa.fa-heart-o
-            .item
-                a.item-swipe(href='#') Song 8
-                .item-back
-                    button.action.first.btn-dislike(type='button')
-                        i.fa.fa-thumbs-o-down
-                    button.action.second.btn-like(type='button')
-                        i.fa.fa-heart-o
-            .item
-                a.item-swipe(href='#') Song 8
-                .item-back
-                    button.action.first.btn-dislike(type='button')
-                        i.fa.fa-thumbs-o-down
-                    button.action.second.btn-like(type='button')
-                        i.fa.fa-heart-o
-            .item
-                a.item-swipe(href='#') Song 9
-                .item-back
-                    button.action.first.btn-dislike(type='button')
-                        i.fa.fa-thumbs-o-down
-                    button.action.second.btn-like(type='button')
-                        i.fa.fa-heart-o
+            each entry in playlist.items
+                .item
+                    if currentSong.uri == entry.track.uri
+                        a.item-swipe(href='/'): b= entry.track.name + ' ' + entry.track.artists.map(a => a.name).join(', ') + ' ' + entry.track.album.name
+                    else
+                        a.item-swipe(href='/')= entry.track.name + ' ' + entry.track.artists.map(a => a.name).join(', ') + ' ' + entry.track.album.name
+                    .item-back
+                        button.action.first.btn-dislike(type='button')
+                            i.fa.fa-thumbs-o-down
+                        button.action.second.btn-like(type='button')
+                            i.fa.fa-heart-o
