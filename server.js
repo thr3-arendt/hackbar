@@ -11,7 +11,8 @@ const express = require('express')
   , path = require('path')
   , everyauth = require('everyauth')
   , Recaptcha = require('recaptcha').Recaptcha
-  , mongoose = require('mongoose');
+  , mongoose = require('mongoose')
+  , moment = require('moment');
 
 
 /**
@@ -194,6 +195,8 @@ app.configure(function () {
     app.use(require('less-middleware')({ src: __dirname + '/public' }));
     app.use(express.static(path.join(__dirname, 'public')));
 });
+
+app.locals.moment = moment;
 
 app.configure('development', function () {
     app.use(express.errorHandler());

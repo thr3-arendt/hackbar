@@ -10,5 +10,5 @@ block content
     br
     ul
         each vote in votes
-            li= vote.date + ' ' + (vote.vote ? 'Up' : 'Down')
+            li= moment(vote.date).format('HH:mm') + ' ' + (vote.vote ? 'Up' : 'Down')
 
