@@ -1,4 +1,4 @@
-$(function() {
+/*$(function() {
 	$('.item-swipe').swipeTo({
 		minSwipe: 100,
 		angle: 10,
@@ -16,7 +16,7 @@ $(function() {
 	});
 	deleteItem();
 	getIe();
-})
+})*/
 
 var deleteItem = function() {
 	var deleteItemFnc = $('body').on('click tap', '.btn-delete', function(e) {
