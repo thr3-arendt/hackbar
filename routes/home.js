@@ -246,7 +246,7 @@ module.exports = function (app) {
             spotifyApi.setAccessToken(auth[0].accessToken);
             spotifyApi.setRefreshToken(auth[0].refreshToken);
 
-            spotifyApi.search('in the end', ['track'], options).then(data => {
+            spotifyApi.search(search, ['track'], options).then(data => {
                 res.render('player/search', { tracks: data.body.tracks.items });
             }, error => console.error('Cannot search for tracks ', error));
         });
