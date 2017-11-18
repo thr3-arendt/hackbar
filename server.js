@@ -230,6 +230,7 @@ require('./routes/home')(app);
 require('./routes/account')(app);
 require('./routes/spotify')(app);
 require('./routes/voting')(app);
+require('./routes/admin')(app);
 
 
 var server = http.createServer(app);
