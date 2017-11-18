@@ -11,7 +11,7 @@ block content
                     if currentSong.uri == entry.track.uri
                         a.item-swipe.active
                             img.cover-thumbnail(src=entry.track.album.images[0].url)
-                            p=entry.track.name
+                            p=entry.track.name + ' (currently playing)'
                             p=entry.track.artists.map(a => a.name).join(', ')
                     else
                         a.item-swipe
