@@ -84,6 +84,12 @@ module.exports = function (app) {
     * -------------------------------------------------------------------------------------------------
     **/
 
+    app.get('/spotify/currentlyplaying', function (req, res) {
+        spotifyApi.getMyCurrentPlaybackState().then(data => {
+            res.render('spotify/current', { output: data.body });
+        }, error => console.log('Cannot get current playback state ', error));
+    });
+
     app.get('/spotify/devices', function (req, res) {
 
         console.log(req.session.accessToken);
