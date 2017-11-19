@@ -56,7 +56,7 @@ let trackUpdateTask = cron.schedule('*/15 * * * * *', function () {
                                     });
 
                                     log = new ActionLog();
-                                    log.message = `Removed track ${fooooooo123123.uri} from the playlist (${vote.vote_negative} out of ${vote.vote_positive + vote.vote_negative} voted against)`;
+                                    log.message = `Removed track ${vote.track} from the playlist (${vote.vote_negative} out of ${vote.vote_positive + vote.vote_negative} voted against)`;
                                     log.save();
 
                                     vote.deleted = true;
