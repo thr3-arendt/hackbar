@@ -99,6 +99,15 @@ a.disabled:hover {
   justify-content: center;
   background: #e0e0e0;
 }
+.player-control-box {
+  margin-left: auto;
+  margin-right: auto;
+  height: 10vmin;
+  width: 10vmin;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
 .control-button {
   color: #757575;
 }
