@@ -9,7 +9,7 @@ block nav
 block content
     .music-list
         each entry, index in playlist.items
-            .music-list-entry(class=(currentSong.uri == entry.track.uri || index == 2)? 'active': '')
+            .music-list-entry(class=(currentSong.uri == entry.track.uri) ? 'active' : '')
                 .music-list-art
                     img.music-list-art-image(src=entry.track.album.images[0].url)
                 .music-list-description.fg-1
