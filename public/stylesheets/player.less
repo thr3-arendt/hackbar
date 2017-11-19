@@ -1,4 +1,4 @@
-a:hover {
+a:hover, a:active {
   color: @crowdsound;
   text-decoration: none;
 }
@@ -140,11 +140,27 @@ a:hover {
     border-top: 1px solid #E0E0E0;
 }
 
-.music-list-entry.active {
+.music-list-entry.active,
+.crowdsound-btn
+ {
     background: rgba(43,187,173, 1);
 }
 
-.music-list-entry.active, .music-list-entry.active a {
+.crowdsound-btn {
+    color: #fff;
+    padding-top: 1em;
+    padding-bottom: 1em;
+    display: inline-block;
+    border: none;
+}
+
+.crowdsound-btn-block {
+    display: block;
+    width: 100%;
+}
+
+.music-list-entry.active,
+.music-list-entry.active a {
     color: #fff;
 }
 

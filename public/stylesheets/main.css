@@ -1,4 +1,5 @@
-a:hover {
+a:hover,
+a:active {
   color: #2bbbad;
   text-decoration: none;
 }
@@ -119,8 +120,20 @@ a:hover {
 .music-list-entry + .music-list-entry {
   border-top: 1px solid #E0E0E0;
 }
-.music-list-entry.active {
+.music-list-entry.active,
+.crowdsound-btn {
   background: #2bbbad;
+}
+.crowdsound-btn {
+  color: #fff;
+  padding-top: 1em;
+  padding-bottom: 1em;
+  display: inline-block;
+  border: none;
+}
+.crowdsound-btn-block {
+  display: block;
+  width: 100%;
 }
 .music-list-entry.active,
 .music-list-entry.active a {

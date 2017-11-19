@@ -18,6 +18,8 @@
 	getIe();
 })*/
 
+window.scrollTo(0,1);
+
 var deleteItem = function() {
 	var deleteItemFnc = $('body').on('click tap', '.btn-delete', function(e) {
 		e.preventDefault();

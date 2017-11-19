@@ -11,7 +11,7 @@ block content
         form(method="POST", action="/search")(style="width:100%")
             .form-group
                 input.form-control(type="text",name="search",placeholder="Search")
-            button.btn.btn-block.waves-effect.waves-light(type='submit', name='action')
+            button.crowdsound-btn.crowdsound-btn-block(type='submit', name='action')
                 | Submit
 
         if tracks && tracks.length > 0
