@@ -11,7 +11,8 @@ block content
         each entry, index in playlist.items
             .music-list-entry(class=(currentSong.uri == entry.track.uri) ? 'active' : '')
                 .music-list-art
-                    img.music-list-art-image(src=entry.track.album.images[0].url)
+                    a(href=entry.track.external_urls.spotify ? entry.track.external_urls.spotify : '' )
+                        img.music-list-art-image(src=entry.track.album.images[0].url)
                 .music-list-description.fg-1
                     div: b=entry.track.name
                     div=entry.track.artists.map(a => a.name).join(', ')
