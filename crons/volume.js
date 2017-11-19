@@ -2,6 +2,7 @@ const cron       = require('node-cron');
 const moment     = require('moment');
 const VolumeVote = require('./../models/VolumeVote');
 const SpotifyAuth = require('./../models/SpotifyAuth');
+const ActionLog  = require('./../models/ActionLog');
 const SpotifyWebApi = require('spotify-web-api-node');
 const nconf = require('nconf');
 const WebApiRequest = require('./../node_modules/spotify-web-api-node/src/webapi-request');
@@ -48,7 +49,6 @@ let volumeUpdateTask = cron.schedule('*/10 * * * *', function() {
 
             // get current volume level
             spotifyApi.getMyCurrentPlaybackState().then(data => {
-
                 let volume = data.body.device.volume_percent || 50;
                 console.log('[VolumeUpdateTask] Current volume is ', data.body.device.volume_percent);
 
@@ -71,6 +71,16 @@ let volumeUpdateTask = cron.schedule('*/10 * * * *', function() {
 
                 HttpManager.put(request, (error, result) => {
                     console.log('[VolumeUpdateTask] Set volume to ' + volume);
+
+                    log = new ActionLog();
+                    if (delta > 0) {
+                        log.message = `Raised volume to ${volume}. Was ${data.body.device.volume_percent} before.`
+                    } else {
+                        log.message = `Lowered volume to ${volume}. Was ${data.body.device.volume_percent} before.`
+                    }
+
+                    log.save();
+
                 });
             });
         });
