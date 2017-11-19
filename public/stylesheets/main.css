@@ -81,11 +81,12 @@ a.disabled:hover {
 }
 .truncated {
   display: block;
-  white-space: nowrap;
   /* forces text to single line */
 
   overflow: hidden;
   text-overflow: ellipsis;
+  max-width: 100%;
+  white-space: nowrap;
 }
 .fg-1 {
   flex-grow: 1;

@@ -28,7 +28,7 @@
             a(href="/downvote/" + currentSong.uri + "?current=1", style="margin-left: 1em;", title="Dislike song")
                 div.player-control-box
                     i.fa.fa-2x.control-button(class=(voted == 'down' ? 'fa-thumbs-down' : 'fa-thumbs-o-down'))
-            div(style="flex-grow: 1; margin-left: 1em; margin-right: 1em;")
+            div(style="flex-grow: 1; margin-left: 1em; margin-right: 1em; min-width: 0;")
                 .text-center.truncated.song-info= currentSong.name
                 .text-center.truncated.song-info.squished
                     small= currentSong.artists.map(a => a.name).join(', ')
