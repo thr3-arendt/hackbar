@@ -36,9 +36,9 @@ module.exports = function (app) {
 
     app.get('/admin', function (req, res) {
 
-        TrackVote.find().lean().exec().then(trackVotes => {
+        TrackVote.find().sort({ vote_positive : -1, vote_negative: 1 }).lean().exec().then(trackVotes => {
 
-            VolumeVote.find().sort({ date: -1 }).lean().exec().then(volumeVotes => {
+            VolumeVote.find().sort({ date: -1 }).limit(10).lean().exec().then(volumeVotes => {
                 res.render('admin/index', { votes: trackVotes, volumeVotes: volumeVotes });
             });
         });
