@@ -180,6 +180,9 @@ a.disabled:hover {
   justify-content: center;
   min-width: 0;
 }
+.text-highlight {
+  color: #2bbbad;
+}
 .music-list-description div {
   text-overflow: ellipsis;
   white-space: nowrap;
