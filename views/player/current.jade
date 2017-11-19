@@ -25,19 +25,27 @@
 .wide-wrapper
     .width-container
         .flex-container(style="margin-bottom: 2em;")
-            a(href="/downvote/" + currentSong.uri, style="margin-left: 1em;", title="Dislike song"): i.fa.fa-2x.control-button(class=(voted == 'down' ? 'fa-thumbs-down' : 'fa-thumbs-o-down'))
-            div(style="flex-grow: 1; margin-left: 1em; margin-right: 1em;")
+            a(href="/downvote/" + currentSong.uri + "?current=1", style="margin-left: 1em;", title="Dislike song")
+                div.player-control-box
+                    i.fa.fa-2x.control-button(class=(voted == 'down' ? 'fa-thumbs-down' : 'fa-thumbs-o-down'))
+            div(style="flex-grow: 1; margin-left: 1em; margin-right: 1em; min-width: 0;")
                 .text-center.truncated.song-info= currentSong.name
                 .text-center.truncated.song-info.squished
                     small= currentSong.artists.map(a => a.name).join(', ')
                 .text-center.truncated.song-info.squished
                     small= currentSong.album.name
-            a(href="/upvote/" + currentSong.uri, style="margin-right: 1em;", title="Like song"): i.fa.fa-2x.control-button(class=(voted == 'up' ? 'fa-thumbs-up' : 'fa-thumbs-o-up'))
+            a(href="/upvote/" + currentSong.uri, style="margin-right: 1em;", title="Like song")
+                div.player-control-box
+                    i.fa.fa-2x.control-button(class=(voted == 'up' ? 'fa-thumbs-up' : 'fa-thumbs-o-up'))
         .flex-container(style="margin-bottom: 2em;")
-            a.fg-1.text-center(href="/volume/down", title="Vote for quieter volume"): i.fa.fa-volume-down.fa-2x.control-button
+            a.fg-1.text-center(href="/volume/down", title="Vote for quieter volume")
+                div.player-control-box
+                    i.fa.fa-volume-down.fa-2x.control-button
             .fg-1.text-center
                 a.next-button.block-center.control-button(href='/skip', class=hasSkipped ? 'disabled' : '', title="Skip current song")
                     i.fa.fa-step-forward.fa-3x
-            a.fg-1.text-center(href="/volume/up", title="Vote for louder volume"): i.fa.fa-volume-up.fa-2x.control-button
+            a.fg-1.text-center(href="/volume/up", title="Vote for louder volume")
+                div.player-control-box
+                    i.fa.fa-volume-up.fa-2x.control-button
         a.block-center.text-center(href="/queue", style="background: #2bbbad; color: #fff; padding: 1em;")
             | View Playlist

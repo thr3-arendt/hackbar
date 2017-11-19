@@ -81,11 +81,12 @@ a.disabled:hover {
 }
 .truncated {
   display: block;
-  white-space: nowrap;
   /* forces text to single line */
 
   overflow: hidden;
   text-overflow: ellipsis;
+  max-width: 100%;
+  white-space: nowrap;
 }
 .fg-1 {
   flex-grow: 1;
@@ -98,6 +99,15 @@ a.disabled:hover {
   align-items: center;
   justify-content: center;
   background: #e0e0e0;
+}
+.player-control-box {
+  margin-left: auto;
+  margin-right: auto;
+  height: 10vmin;
+  width: 10vmin;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 .control-button {
   color: #757575;

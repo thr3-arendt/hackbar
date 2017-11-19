@@ -39,7 +39,9 @@ if (progressbar) {
     setInterval(function () {
         start += 1000; // plus a second
 
-        if (start > end) {
+        if (start == 0 && end == 0) {
+            console.log("Not playing right now");
+        } else if (start > end) {
             location.reload();
         }
 
