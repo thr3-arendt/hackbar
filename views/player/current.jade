@@ -11,24 +11,33 @@
         .info.text-center
             div.cover-art-width.block-center.pos-rel
                 img.cover-art-image(src=bg)
-                div.progress-bar
+                - var percent = Math.round(progress_ms / currentSong.duration_ms * 100)
+                .progress-bar(aria-valuenow=percent, aria-valuemin="0", aria-valuemax="100", style="width: " + percent + "%;")
+                    span.sr-only=percent + '% Complete'
+                    .counter.hidden
+                        - var minutes = Math.floor(progress_ms / (1000 * 60))
+                        - var seconds = Math.floor((progress_ms - minutes * 60 * 1000) / (1000))
+                        span.begin(data-start=progress_ms)//= minutes + ':' + (seconds < 10 ? '0' + seconds : seconds)
+
+                        - var minutes = Math.floor(currentSong.duration_ms / (1000 * 60))
+                        - var seconds = Math.floor((currentSong.duration_ms - minutes * 60 * 1000) / (1000))
+                        span.end(data-end=currentSong.duration_ms)//= minutes + ':' + (seconds < 10 ? '0' + seconds : seconds)
 .wide-wrapper
     .width-container
-
-        div.flex-container(style="margin-bottom: 2em;")
-            a(href="/downvote/" + currentSong.uri, style="margin-left: 1em;"): i.fa.fa-2x.control-button(class=(voted == 'down' ? 'fa-thumbs-down' : 'fa-thumbs-o-down'))
+        .flex-container(style="margin-bottom: 2em;")
+            a(href="/downvote/" + currentSong.uri, style="margin-left: 1em;", title="Dislike song"): i.fa.fa-2x.control-button(class=(voted == 'down' ? 'fa-thumbs-down' : 'fa-thumbs-o-down'))
             div(style="flex-grow: 1; margin-left: 1em; margin-right: 1em;")
-                div.text-center.truncated.song-info= currentSong.name
-                div.text-center.truncated.song-info.squished
+                .text-center.truncated.song-info= currentSong.name
+                .text-center.truncated.song-info.squished
                     small= currentSong.artists.map(a => a.name).join(', ')
-                div.text-center.truncated.song-info.squished
+                .text-center.truncated.song-info.squished
                     small= currentSong.album.name
-            a(href="/upvote/" + currentSong.uri, style="margin-right: 1em;"): i.fa.fa-2x.control-button(class=(voted == 'up' ? 'fa-thumbs-up' : 'fa-thumbs-o-up'))
-        div.flex-container(style="margin-bottom: 2em;")
-            a.fg-1.text-center(href="/volume/down"): i.fa.fa-volume-down.fa-2x.control-button
-            div.fg-1.text-center
+            a(href="/upvote/" + currentSong.uri, style="margin-right: 1em;", title="Like song"): i.fa.fa-2x.control-button(class=(voted == 'up' ? 'fa-thumbs-up' : 'fa-thumbs-o-up'))
+        .flex-container(style="margin-bottom: 2em;")
+            a.fg-1.text-center(href="/volume/down", title="Vote for quieter volume"): i.fa.fa-volume-down.fa-2x.control-button
+            .fg-1.text-center
                 a.next-button.block-center.control-button(href='/skip', class=hasSkipped ? 'disabled' : '', title="Skip current song")
                     i.fa.fa-step-forward.fa-3x
-            a.fg-1.text-center(href="/volume/up"): i.fa.fa-volume-up.fa-2x.control-button
+            a.fg-1.text-center(href="/volume/up", title="Vote for louder volume"): i.fa.fa-volume-up.fa-2x.control-button
         a.block-center.text-center(href="/queue", style="background: #2bbbad; color: #fff; padding: 1em;")
-            | View Queue
+            | View Playlist

@@ -4,23 +4,23 @@ block nav
     div.flex-container(style="background-color: #E0E0E0;")
         a(href='/', style="padding-left: 1em; padding-right: 1em; color: #000;")
             i.fa.fa-angle-left.fa-2x
-        div.navbar-text.text-center.fg-1 Current Queue
+        .navbar-text.text-center.fg-1 Current Playlist
 
 block content
     .music-list
         each entry, index in playlist.items
-            .music-list-entry(class=(currentSong.uri == entry.track.uri || index == 2)? 'active': '')
+            .music-list-entry(class=(currentSong.uri == entry.track.uri) ? 'active' : '')
                 .music-list-art
                     img.music-list-art-image(src=entry.track.album.images[0].url)
                 .music-list-description.fg-1
                     div: b=entry.track.name
                     div=entry.track.artists.map(a => a.name).join(', ')
                 .music-list-vote
-                    a.control-button(href="/upvote/" + entry.track.uri)
+                    a.control-button(href="/upvote/" + entry.track.uri, title="Like song")
                         i.fa(class=(voted[entry.track.uri] == 'up' ? 'fa-thumbs-up' : 'fa-thumbs-o-up'))
-                    a.control-button(href="/downvote/" + entry.track.uri)
+                    a.control-button(href="/downvote/" + entry.track.uri, title="Dislike song")
                         i.fa(class=(voted[entry.track.uri] == 'down' ? 'fa-thumbs-down' : 'fa-thumbs-o-down'))
 
-    div.fixed-action-btn
+    .fixed-action-btn
         a.btn-floating.btn-large.waves-effect.waves-light.red(href='search')
             i.material-icons add

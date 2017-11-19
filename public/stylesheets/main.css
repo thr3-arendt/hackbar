@@ -1,58 +1,199 @@
-.list .item {
-  border-bottom: 1px solid #e1e1e1;
-  height: 100px;
+a:hover,
+a:active {
+  color: #2bbbad;
+  text-decoration: none;
 }
-.list .item .item-swipe {
-  /*background: #ffffff;*/
-  padding: 10px;
-  z-index: 1;
+a.disabled {
+  cursor: default;
+  opacity: 0.5;
 }
-.list .item .item-swipe.open {
-  background: #333333;
+a.disabled:hover {
+  color: #757575;
+  text-decoration: none;
 }
-.list .item .item-swipe.open:before {
-  content: "\f00d";
-  font-family: FontAwesome;
-  font-style: normal;
-  font-weight: normal;
-  text-decoration: inherit;
-  color: #ffffff;
-  position: absolute;
-  right: 10px;
-}
-.list .item a.item-swipe {
-  color: #333333;
-  text-decoration: inherit;
-}
-.list .item a.item-swipe:active {
-  color: inherit;
-}
-.list .item .item-back {
-  background: #e1e1e1;
-  padding: 10px;
-  text-align: right;
-}
-.list .item .item-back .action {
+.bg-image {
   position: absolute;
   top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0.3;
+  z-index: -1;
+  object-fit: cover;
+}
+.desktop-vspace {
+  padding-top: 1em;
+  padding-bottom: 1em;
+}
+.vspace {
+  padding-top: 1em;
+  padding-bottom: 1em;
+}
+@media (max-width: 768px) {
+  .desktop-vspace {
+    padding-top: 0;
+    padding-bottom: 0;
+  }
+}
+.width-container {
+  padding-left: 1em;
+  padding-right: 1em;
+  max-width: 500px;
+  margin-left: auto;
+  margin-right: auto;
+}
+.wide-wrapper {
+  position: relative;
+}
+.cover-art {
+  display: inline-block;
+  position: relative;
+}
+.progress-bar {
+  position: absolute;
   bottom: 0;
-  right: 0;
-  width: 50px;
-  border: inherit;
-  outline: inherit;
-  color: #ffffff;
-  padding: 0;
-  font-size: 22px;
+  left: 0;
+  width: 100%;
+  height: 5px;
+  background: #2bbbad;
 }
-.list .item .item-back .action.first {
-  right: 0;
+.cover-art-width {
+  max-width: 68vmin;
+  max-height: 68vmin;
 }
-.list .item .item-back .action.second {
-  right: 50px;
+.cover-art-image {
+  width: 100%;
 }
-.btn-delete {
-  background: #b22222;
+.block-center {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
 }
-.btn-check {
-  background: #008000;
+.pos-rel {
+  position: relative;
+}
+.flex-container {
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  display: flex;
+  align-content: space-between;
+}
+.truncated {
+  display: block;
+  white-space: nowrap;
+  /* forces text to single line */
+
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.fg-1 {
+  flex-grow: 1;
+}
+.next-button {
+  height: 20vmin;
+  width: 20vmin;
+  border-radius: 10vmin;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #e0e0e0;
+}
+.control-button {
+  color: #757575;
+}
+.control-button:not(.disabled):hover {
+  color: #2bbbad;
+}
+.song-info {
+  font-size: 1.3rem;
+}
+.squished {
+  line-height: 1.3rem;
+}
+.music-list {
+  display: flex;
+  flex-direction: column;
+  max-width: 100%;
+}
+.music-list-entry {
+  padding-left: 0.5em;
+  padding-top: 0.5em;
+  padding-bottom: 0.5em;
+  display: flex;
+  flex-direction: row;
+}
+.music-list-entry + .music-list-entry {
+  border-top: 1px solid #e0e0e0;
+}
+.music-list-entry.active,
+.crowdsound-btn {
+  background: #2bbbad;
+}
+.crowdsound-btn {
+  color: #fff;
+  padding-top: 1em;
+  padding-bottom: 1em;
+  display: inline-block;
+  border: none;
+}
+.crowdsound-btn-block {
+  display: block;
+  width: 100%;
+}
+.music-list-entry.active,
+.music-list-entry.active a {
+  color: #fff;
+}
+.music-list-art-image {
+  max-width: 20vmin;
+}
+.music-list-vote {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+.music-list-vote a {
+  font-size: 150%;
+  padding-left: 0.5em;
+  padding-right: 0.5em;
+}
+.music-list-description {
+  padding: 0.5em;
+  display: flex;
+  flex-direction: column;
+  align-items: left;
+  justify-content: center;
+  min-width: 0;
+}
+.music-list-description div {
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+  max-width: 100%;
+  padding-right: 1em;
+}
+.hidden {
+  display: none;
+}
+#chat {
+  border: 1px solid #999;
+  background-color: #ddd;
+  overflow: auto;
+  height: 150px;
+  margin-bottom: 10px;
+  padding: 10px;
+}
+.user-me {
+  font-weight: bold;
+  color: #f00;
+}
+.user {
+  font-weight: bold;
+  color: #00f;
+}
+.system {
+  color: #999;
+  font-style: italic;
 }

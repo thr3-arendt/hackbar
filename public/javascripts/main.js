@@ -28,7 +28,7 @@ var deleteItem = function() {
 	})
 }
 
-var progressbar = $('.track .progress-bar');
+var progressbar = $('.progress-bar');
 
 if (progressbar) {
     var start = $('.begin').data('start');
@@ -46,7 +46,7 @@ if (progressbar) {
         var minutes = Math.floor(start / (1000 * 60));
         var seconds = Math.floor((start - minutes * 60 * 1000) / (1000));
 
-        $('.begin').text(minutes + ':' + (seconds < 10 ? '0'+seconds : seconds));
+        //$('.begin').text(minutes + ':' + (seconds < 10 ? '0'+seconds : seconds));
         $('.progress-bar').css('width', Math.round(start / end * 100) + '%')
 
     }, 1000);

@@ -27,7 +27,9 @@ block content
                                     td= vote.track
                                     td= vote.vote_positive
                                     td= vote.vote_negative
-                                    td= vote.deleted ? 'Del' : ''
+                                    td.text-center
+                                        if vote.deleted
+                                            i.fa.fa-times
             .col-md-6
                 .panel.panel-default
                     .panel-heading

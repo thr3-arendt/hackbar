@@ -12,7 +12,7 @@ module.exports = function (app) {
         'user-modify-playback-state', 'user-read-currently-playing',
         'playlist-modify-public'];
 
-    let redirectUri  = 'http://localhost:3000/spotify/callback';
+    let redirectUri  = 'https://hackbar.azurewebsites.net/spotify/callback';
     let clientId     = nconf.get('spotify:clientId');
     let clientSecret = nconf.get('spotify:clientSecret');
     let state        = 'some-state-of-my-choice';

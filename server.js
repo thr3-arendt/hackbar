@@ -285,4 +285,5 @@ server.listen(app.get('port'), function () {
 
     require('./crons/volume');
     require('./crons/track');
+    require('./crons/token');
 });
