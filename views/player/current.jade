@@ -14,19 +14,18 @@
                 div.progress-bar
 .wide-wrapper
     .width-container
-
-        div.flex-container(style="margin-bottom: 2em;")
+        .flex-container(style="margin-bottom: 2em;")
             a(href="/downvote/" + currentSong.uri, style="margin-left: 1em;"): i.fa.fa-2x.control-button(class=(voted == 'down' ? 'fa-thumbs-down' : 'fa-thumbs-o-down'))
             div(style="flex-grow: 1; margin-left: 1em; margin-right: 1em;")
-                div.text-center.truncated.song-info= currentSong.name
-                div.text-center.truncated.song-info.squished
+                .text-center.truncated.song-info= currentSong.name
+                .text-center.truncated.song-info.squished
                     small= currentSong.artists.map(a => a.name).join(', ')
-                div.text-center.truncated.song-info.squished
+                .text-center.truncated.song-info.squished
                     small= currentSong.album.name
             a(href="/upvote/" + currentSong.uri, style="margin-right: 1em;"): i.fa.fa-2x.control-button(class=(voted == 'up' ? 'fa-thumbs-up' : 'fa-thumbs-o-up'))
-        div.flex-container(style="margin-bottom: 2em;")
+        .flex-container(style="margin-bottom: 2em;")
             a.fg-1.text-center(href="/volume/down"): i.fa.fa-volume-down.fa-2x.control-button
-            div.fg-1.text-center
+            .fg-1.text-center
                 a.next-button.block-center.control-button(href='/skip', class=hasSkipped ? 'disabled' : '', title="Skip current song")
                     i.fa.fa-step-forward.fa-3x
             a.fg-1.text-center(href="/volume/up"): i.fa.fa-volume-up.fa-2x.control-button
