@@ -3,6 +3,14 @@ a:active {
   color: #2bbbad;
   text-decoration: none;
 }
+a.disabled {
+  cursor: default;
+  opacity: 0.5;
+}
+a.disabled:hover {
+  color: #757575;
+  text-decoration: none;
+}
 .bg-image {
   position: absolute;
   top: 0;
@@ -96,7 +104,7 @@ a:active {
 .control-button {
   color: #757575;
 }
-.control-button:hover {
+.control-button:not(.disabled):hover {
   color: #2bbbad;
 }
 .song-info {

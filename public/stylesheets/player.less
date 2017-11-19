@@ -3,6 +3,15 @@ a:hover, a:active {
   text-decoration: none;
 }
 
+a.disabled {
+  cursor: default;
+  opacity: 0.5;
+  &:hover {
+    color: #757575;
+    text-decoration: none;
+  }
+}
+
 .bg-image {
   position: absolute;
   top: 0;
@@ -109,8 +118,10 @@ a:hover, a:active {
 
 .control-button {
   color: #757575;
-  &:hover {
-    color: @crowdsound;
+  &:not(.disabled) {
+    &:hover {
+      color: @crowdsound;
+    }
   }
 }
 
