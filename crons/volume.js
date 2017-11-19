@@ -15,10 +15,10 @@ const spotifyApi = new SpotifyWebApi({
 });
 
 
-let volumeUpdateTask = cron.schedule('*/10 * * * *', function() {
+let volumeUpdateTask = cron.schedule('*/10 * * * * *', function() {
     console.log('[VolumeUpdateTask] Running volume update task');
 
-    let cutoffDate = moment().subtract(10, 'minutes');
+    let cutoffDate = moment().subtract(10, 'seconds');
 
     VolumeVote.aggregate([
         { $match: { date: { $gt: cutoffDate.toDate() } } },
