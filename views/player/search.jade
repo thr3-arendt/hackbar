@@ -12,7 +12,7 @@ block content
             .form-group
                 input.form-control(type="text",name="search",placeholder="Search")
             button.crowdsound-btn.crowdsound-btn-block(type='submit', name='action')
-                | Submit
+                | Search
 
         if tracks && tracks.length > 0
             h4 Search Results
@@ -25,5 +25,5 @@ block content
                             div: b=track.name
                             div=track.artists.map(a => a.name).join(', ')
                         .music-list-vote
-                            a(href="/addtrack/" + track.uri)
+                            a(href="/addtrack/" + track.uri, title="Add song to playlist")
                                 i.material-icons add
