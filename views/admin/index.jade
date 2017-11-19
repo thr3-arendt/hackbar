@@ -45,5 +45,21 @@ block content
                                     td= moment(vote.date).format('HH:mm')
                                     td= vote.vote ? 'Louder' : 'Quieter'
 
+        .row
+            .col-md-12
+                .panel.panel-default
+                    .panel-heading
+                        h3.panel-title Action Logs
+                    table.table-striped.table-condensed
+                        thead
+                            tr
+                                th Date
+                                th Message
+                        tbody
+                            each log in actionLogs
+                                tr
+                                    td= moment(log.createdAt).format('HH:mm:ss')
+                                    td= log.message
+
 
 

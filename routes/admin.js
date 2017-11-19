@@ -4,6 +4,7 @@ module.exports = function (app) {
     const nconf         = require('nconf');
     const TrackVote  = require('./../models/TrackVote');
     const VolumeVote = require('./../models/VolumeVote');
+    const ActionLog  = require('./../models/ActionLog');
 
     const WebApiRequest = require('./../node_modules/spotify-web-api-node/src/webapi-request');
     const HttpManager  = require('./../node_modules/spotify-web-api-node/src/http-manager');
@@ -39,7 +40,10 @@ module.exports = function (app) {
         TrackVote.find().sort({ vote_positive : -1, vote_negative: 1 }).lean().exec().then(trackVotes => {
 
             VolumeVote.find().sort({ date: -1 }).limit(10).lean().exec().then(volumeVotes => {
-                res.render('admin/index', { votes: trackVotes, volumeVotes: volumeVotes });
+
+                ActionLog.find().sort({ createdAt: -1 }).limit(10).lean().exec().then(actionLogs => {
+                    res.render('admin/index', { votes: trackVotes, volumeVotes: volumeVotes, actionLogs: actionLogs });
+                });
             });
         });
     });

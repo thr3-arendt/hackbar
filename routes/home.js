@@ -4,6 +4,7 @@ module.exports = function (app) {
     const nconf         = require('nconf');
     const TrackVote  = require('./../models/TrackVote');
     const VolumeVote = require('./../models/VolumeVote');
+    const ActionLog  = require('./../models/ActionLog');
 
     const WebApiRequest = require('./../node_modules/spotify-web-api-node/src/webapi-request');
     const HttpManager  = require('./../node_modules/spotify-web-api-node/src/http-manager');
@@ -99,6 +100,10 @@ module.exports = function (app) {
                     vote = votes[0];
                 }
 
+                log = new ActionLog();
+                log.message = `Received upvote for track ${track}`;
+                log.save();
+
                 vote.vote_positive++;
 
                 let backURL = req.header('Referer') || '/';
@@ -147,6 +152,10 @@ module.exports = function (app) {
                     vote = votes[0];
                 }
 
+                log = new ActionLog();
+                log.message = `Received downvote for track ${track}`;
+                log.save();
+
                 vote.vote_negative++;
 
                 let backURL = req.header('Referer') || '/';
@@ -165,10 +174,19 @@ module.exports = function (app) {
                             let current = req.query.current || 0;
 
                             if (current) {
+
+                                log = new ActionLog();
+                                log.message = `Skipping track ${track} (${vote.vote_negative} out of ${vote.vote_positive + vote.vote_negative} voted to skip)`;
+                                log.save();
+
                                 console.log('Skipping songs due to popular demand');
                                 // skip the track
                                 spotifyApi.skipToNext().then(() => res.redirect(backURL));
                                 return;
+                            } else {
+                                log = new ActionLog();
+                                log.message = `Marking track ${track} as to be deleted (${vote.vote_negative} out of ${vote.vote_positive + vote.vote_negative} voted against)`;
+                                log.save();
                             }
                         }
                     }
@@ -310,6 +328,10 @@ module.exports = function (app) {
 
         req.flash('info', 'Voted to increase the volume');
 
+        log = new ActionLog();
+        log.message = `Received vote to crank up the volume`;
+        log.save();
+
         console.log('Voting for volume up');
 
     });
@@ -329,6 +351,10 @@ module.exports = function (app) {
         req.session.changeVolumeDate = moment();
 
         req.flash('info', 'Voted to decrease the volume');
+
+        log = new ActionLog();
+        log.message = `Received vote to lower the volume`;
+        log.save();
 
         console.log('Voting for volume down');
     });

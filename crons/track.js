@@ -2,6 +2,7 @@ const cron       = require('node-cron');
 const TrackVote = require('./../models/TrackVote');
 const SpotifyAuth = require('./../models/SpotifyAuth');
 const SpotifyWebApi = require('spotify-web-api-node');
+const ActionLog  = require('./../models/ActionLog');
 const nconf = require('nconf');
 
 
@@ -54,6 +55,10 @@ let trackUpdateTask = cron.schedule('*/2 * * * *', function () {
                                         'uri':       vote.track
                                     });
 
+                                    log = new ActionLog();
+                                    log.message = `Removed track ${fooooooo123123.uri} from the playlist (${vote.vote_negative} out of ${vote.vote_positive + vote.vote_negative} voted against)`;
+                                    log.save();
+
                                     vote.deleted = true;
                                     vote.save(/* yolo */);
                                 }
@@ -66,7 +71,6 @@ let trackUpdateTask = cron.schedule('*/2 * * * *', function () {
                     console.log('Going to remove tracks', tracks);
                     spotifyApi.removeTracksFromPlaylist(spotifyUserId, playlistId, tracks).then(data => {
                         console.log('Removed all tracks');
-
                         // set info in database
 
                     }, error => console.error('Cannot remove track from playlist ', error));
