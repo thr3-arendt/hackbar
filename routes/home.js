@@ -150,12 +150,31 @@ module.exports = function (app) {
                 vote.vote_negative++;
 
                 let backURL = req.header('Referer') || '/';
-                vote.save(() => res.redirect(backURL));
+                vote.save(() => {
 
-                req.flash('info', 'Downvoted song');
+                    req.flash('info', 'Downvoted song');
 
-                console.log('Voting down for track ' + track);
-                req.session.voteTrack[track] = 'down';
+                    console.log('Voting down for track ' + track);
+                    req.session.voteTrack[track] = 'down';
+
+
+                    if (vote.vote_positive + vote.vote_negative >= 5) {
+                        if (vote.vote_negative / (vote.vote_positive + vote.vote_negative) >= 0.60) {
+                            // the track should be removed
+                            // check if its the current song and then skip it
+                            let current = req.query.current || 0;
+
+                            if (current) {
+                                console.log('Skipping songs due to popular demand');
+                                // skip the track
+                                spotifyApi.skipToNext().then(() => res.redirect(backURL));
+                                return;
+                            }
+                        }
+                    }
+
+                    res.redirect(backURL);
+                });
             });
         });
     });
