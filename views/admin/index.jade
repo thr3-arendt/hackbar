@@ -20,7 +20,7 @@ block content
                         tbody
                             each log in actionLogs
                                 tr
-                                    td= moment(log.createdAt).format('HH:mm:ss')
+                                    td= moment(log.createdAt).add('1', 'hour').format('HH:mm:ss')
                                     td= log.message
             .col-md-6
                 .panel.panel-default

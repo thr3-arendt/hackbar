@@ -74,9 +74,9 @@ let volumeUpdateTask = cron.schedule('*/10 * * * * *', function() {
 
                     log = new ActionLog();
                     if (delta > 0) {
-                        log.message = `Raised volume to ${volume}. Was ${data.body.device.volume_percent} before.`
+                        log.message = `Raised volume to ${volume}%. Was ${data.body.device.volume_percent}% before.`
                     } else {
-                        log.message = `Lowered volume to ${volume}. Was ${data.body.device.volume_percent} before.`
+                        log.message = `Lowered volume to ${volume}%. Was ${data.body.device.volume_percent}% before.`
                     }
 
                     log.save();
