@@ -41,7 +41,7 @@ let trackUpdateTask = cron.schedule('*/2 * * * *', function () {
 
                     if (vote.vote_positive + vote.vote_negative >= 5) {
                          // more than 75% negative votes
-                        if (vote.vote_negative / (vote.vote_positive + vote.vote_negative) >= 0.75) {
+                        if (vote.vote_negative / (vote.vote_positive + vote.vote_negative) >= 0.60) {
                             console.log('Should remove this track');
 
                             // find position in playlist
