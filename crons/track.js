@@ -14,7 +14,7 @@ const spotifyApi = new SpotifyWebApi({
 
 
 
-let trackUpdateTask = cron.schedule('*/2 * * * *', function () {
+let trackUpdateTask = cron.schedule('*/15 * * * * *', function () {
     console.log('[TrackUpdateTask] Running track update task');
 
     TrackVote.find({ deleted: { $ne: true } }).exec().then(votes => {
