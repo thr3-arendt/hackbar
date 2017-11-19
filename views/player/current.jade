@@ -11,7 +11,17 @@
         .info.text-center
             div.cover-art-width.block-center.pos-rel
                 img.cover-art-image(src=bg)
-                div.progress-bar
+                - var percent = Math.round(progress_ms / currentSong.duration_ms * 100)
+                .progress-bar(aria-valuenow=percent, aria-valuemin="0", aria-valuemax="100", style="width: " + percent + "%;")
+                    span.sr-only=percent + '% Complete'
+                    .counter.hidden
+                        - var minutes = Math.floor(progress_ms / (1000 * 60))
+                        - var seconds = Math.floor((progress_ms - minutes * 60 * 1000) / (1000))
+                        span.begin(data-start=progress_ms)//= minutes + ':' + (seconds < 10 ? '0' + seconds : seconds)
+
+                        - var minutes = Math.floor(currentSong.duration_ms / (1000 * 60))
+                        - var seconds = Math.floor((currentSong.duration_ms - minutes * 60 * 1000) / (1000))
+                        span.end(data-end=currentSong.duration_ms)//= minutes + ':' + (seconds < 10 ? '0' + seconds : seconds)
 .wide-wrapper
     .width-container
         .flex-container(style="margin-bottom: 2em;")

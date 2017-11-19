@@ -176,6 +176,9 @@ a.disabled:hover {
   max-width: 100%;
   padding-right: 1em;
 }
+.hidden {
+  display: none;
+}
 #chat {
   border: 1px solid #999;
   background-color: #ddd;

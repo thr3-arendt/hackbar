@@ -7,7 +7,7 @@ a.disabled {
   cursor: default;
   opacity: 0.5;
   &:hover {
-    color: #757575;
+    color: @grey;
     text-decoration: none;
   }
 }
@@ -117,7 +117,7 @@ a.disabled {
 }
 
 .control-button {
-  color: #757575;
+  color: @grey;
   &:not(.disabled) {
     &:hover {
       color: @crowdsound;
@@ -207,4 +207,8 @@ a.disabled {
     overflow: hidden;
     max-width: 100%;
     padding-right: 1em;
+}
+
+.hidden {
+  display:none;
 }
